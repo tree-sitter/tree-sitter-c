@@ -21,6 +21,48 @@ const PREC = {
   SUBSCRIPT: 16
 };
 
+const SIZE_QUALIFIERS = [
+  'signed',
+  'unsigned',
+  'long',
+  'short'
+]
+
+const TYPE_QUALIFIERS = [
+  'const',
+  'restrict',
+  'volatile',
+  'restrict',
+  '_Atomic'
+]
+
+const STORAGE_CLASS_SPECIFIERS = [
+  'extern',
+  'static' ,
+  'auto',
+  'register',
+  'inline'
+]
+
+const KEYWORDS = [
+  'break',
+  'case',
+  'continue',
+  'do',
+  'enum',
+  'for',
+  'if',
+  'return',
+  'struct',
+  'switch',
+  'typedef',
+  'union',
+  'while',
+  ...STORAGE_CLASS_SPECIFIERS,
+  ...TYPE_QUALIFIERS,
+  ...SIZE_QUALIFIERS
+]
+
 module.exports = grammar({
   name: 'c',
 
@@ -32,6 +74,7 @@ module.exports = grammar({
   inline: $ => [
     $._statement,
     $._top_level_item,
+    $._identifier,
     $._type_identifier,
     $._field_identifier,
     $._statement_identifier,
@@ -162,7 +205,7 @@ module.exports = grammar({
       $.function_declarator,
       $.array_declarator,
       prec.dynamic(PREC.PAREN_DECLARATOR, seq('(', $._declarator, ')')),
-      $.identifier
+      $._identifier
     ),
 
     _field_declarator: $ => choice(
@@ -239,21 +282,9 @@ module.exports = grammar({
       '}'
     ),
 
-    storage_class_specifier: $ => choice(
-      'extern',
-      'static' ,
-      'auto',
-      'register',
-      'inline'
-    ),
+    storage_class_specifier: $ => choice(...STORAGE_CLASS_SPECIFIERS),
 
-    type_qualifier: $ => choice(
-      'const',
-      'restrict',
-      'volatile',
-      'restrict',
-      '_Atomic'
-    ),
+    type_qualifier: $ => choice(...TYPE_QUALIFIERS),
 
     _type_specifier: $ => choice(
       $.struct_specifier,
@@ -266,12 +297,7 @@ module.exports = grammar({
     ),
 
     sized_type_specifier: $ => seq(
-      repeat1(choice(
-        'signed',
-        'unsigned',
-        'long',
-        'short'
-      )),
+      repeat1(choice(...SIZE_QUALIFIERS)),
       optional(choice(
         prec.dynamic(-1, $._type_identifier),
         $.primitive_type
@@ -357,7 +383,7 @@ module.exports = grammar({
     bitfield_clause: $ => seq(':', $._expression),
 
     enumerator: $ => seq(
-      $.identifier,
+      $._identifier,
       optional(seq('=', $._expression))
     ),
 
@@ -502,7 +528,7 @@ module.exports = grammar({
       $.call_expression,
       $.field_expression,
       $.compound_literal_expression,
-      $.identifier,
+      $._identifier,
       $.number_literal,
       $.string_literal,
       $.true,
@@ -714,9 +740,10 @@ module.exports = grammar({
 
     identifier: $ => /[a-zA-Z_]\w*/,
 
-    _type_identifier: $ => alias($.identifier, $.type_identifier),
-    _field_identifier: $ => alias($.identifier, $.field_identifier),
-    _statement_identifier: $ => alias($.identifier, $.statement_identifier),
+    _identifier: $ => $.identifier.exclude($.primitive_type, ...KEYWORDS),
+    _type_identifier: $ => alias($._identifier, $.type_identifier),
+    _field_identifier: $ => alias($._identifier, $.field_identifier),
+    _statement_identifier: $ => alias($._identifier, $.statement_identifier),
 
     _empty_declaration: $ => seq(
       $._declaration_specifiers,

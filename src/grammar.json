@@ -913,7 +913,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "_identifier"
         }
       ]
     },
@@ -2050,7 +2050,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "_identifier"
         },
         {
           "type": "CHOICE",
@@ -2688,7 +2688,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "_identifier"
         },
         {
           "type": "SYMBOL",
@@ -4002,11 +4002,216 @@
       "type": "PATTERN",
       "value": "[a-zA-Z_]\\w*"
     },
+    "_identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "SYMBOL",
+            "name": "primitive_type"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "break"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "case"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "continue"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "do"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "enum"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "for"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "if"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "return"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "struct"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "switch"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "typedef"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "union"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "while"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "extern"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "static"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "auto"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "register"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "inline"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "const"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "restrict"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "volatile"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "restrict"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "_Atomic"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "signed"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "unsigned"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "long"
+          }
+        },
+        {
+          "type": "EXCLUDE",
+          "content": {
+            "type": "STRING",
+            "value": "short"
+          }
+        }
+      ]
+    },
     "_type_identifier": {
       "type": "ALIAS",
       "content": {
         "type": "SYMBOL",
-        "name": "identifier"
+        "name": "_identifier"
       },
       "named": true,
       "value": "type_identifier"
@@ -4015,7 +4220,7 @@
       "type": "ALIAS",
       "content": {
         "type": "SYMBOL",
-        "name": "identifier"
+        "name": "_identifier"
       },
       "named": true,
       "value": "field_identifier"
@@ -4024,7 +4229,7 @@
       "type": "ALIAS",
       "content": {
         "type": "SYMBOL",
-        "name": "identifier"
+        "name": "_identifier"
       },
       "named": true,
       "value": "statement_identifier"
@@ -4147,6 +4352,7 @@
   "inline": [
     "_statement",
     "_top_level_item",
+    "_identifier",
     "_type_identifier",
     "_field_identifier",
     "_statement_identifier"
