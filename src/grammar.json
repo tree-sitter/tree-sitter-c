@@ -820,6 +820,10 @@
               {
                 "type": "SYMBOL",
                 "name": "type_qualifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "attribute_specifier"
               }
             ]
           }
@@ -840,6 +844,10 @@
               {
                 "type": "SYMBOL",
                 "name": "type_qualifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "attribute_specifier"
               }
             ]
           }
@@ -871,6 +879,79 @@
             {
               "type": "SYMBOL",
               "name": "declaration_list"
+            }
+          ]
+        }
+      ]
+    },
+    "attribute_specifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "__attribute__"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "(("
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "identifier"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "call_expression"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": ","
+                          },
+                          {
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "identifier"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "call_expression"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "STRING",
+              "value": "))"
             }
           ]
         }
@@ -1223,6 +1304,21 @@
           {
             "type": "SYMBOL",
             "name": "parameter_list"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "attribute_specifier"
+                }
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
