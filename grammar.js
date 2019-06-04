@@ -156,12 +156,9 @@ module.exports = grammar({
     attribute_specifier: $ => seq(
       '__attribute__',
       seq(
-        '((',
-        commaSep(choice(
-          $.identifier,
-          $.call_expression
-        )),
-        '))'
+        '(',
+        $.argument_list,
+        ')'
       )
     ),
 
