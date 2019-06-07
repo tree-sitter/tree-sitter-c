@@ -695,6 +695,13 @@
           "name": "_declarator"
         },
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "declaration"
+          }
+        },
+        {
           "type": "SYMBOL",
           "name": "compound_statement"
         }
@@ -1245,28 +1252,24 @@
       }
     },
     "function_declarator": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_declarator"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "parameter_list"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
             "type": "SYMBOL",
-            "name": "_declarator"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "parameter_list"
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "SYMBOL",
-              "name": "attribute_specifier"
-            }
+            "name": "attribute_specifier"
           }
-        ]
-      }
+        }
+      ]
     },
     "function_field_declarator": {
       "type": "PREC",
@@ -4544,6 +4547,9 @@
     ],
     [
       "sized_type_specifier"
+    ],
+    [
+      "function_declarator"
     ]
   ],
   "externals": [],
@@ -4554,6 +4560,7 @@
     "_field_identifier",
     "_statement_identifier"
   ],
+  "supertypes": [],
   "PREC": {
     "PAREN_DECLARATOR": -10,
     "ASSIGNMENT": -1,
@@ -4577,3 +4584,4 @@
     "SUBSCRIPT": 16
   }
 }
+

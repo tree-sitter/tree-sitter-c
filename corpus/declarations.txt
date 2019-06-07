@@ -400,3 +400,31 @@ extern __attribute__((visibility("default"), weak)) int print_status();
     (attribute_specifier
       (argument_list (call_expression (identifier) (argument_list (string_literal))) (identifier)))
     (primitive_type) (function_declarator (identifier) (parameter_list))))
+
+============================================
+Old-Style Function definitions
+============================================
+
+int foo(bar, baz, qux)
+int bar, baz;
+char *qux; 
+{
+
+}
+
+---
+
+(translation_unit 
+    (function_definition 
+        (primitive_type) 
+        (function_declarator 
+            (identifier) 
+            (parameter_list 
+                (parameter_declaration (type_identifier)) 
+                (parameter_declaration (type_identifier)) 
+                (parameter_declaration (type_identifier)))) 
+        (declaration (primitive_type) (identifier) (identifier)) 
+        (declaration (primitive_type) (pointer_declarator (identifier))) 
+        (compound_statement)
+    )
+)

@@ -44,6 +44,7 @@ module.exports = grammar({
     [$._type_specifier, $._expression, $.macro_type_specifier],
     [$._type_specifier, $.macro_type_specifier],
     [$.sized_type_specifier],
+    [$.function_declarator],
   ],
 
   word: $ => $.identifier,
@@ -109,6 +110,7 @@ module.exports = grammar({
     function_definition: $ => seq(
       $._declaration_specifiers,
       $._declarator,
+      repeat($.declaration),
       $.compound_statement
     ),
 
@@ -204,7 +206,7 @@ module.exports = grammar({
     pointer_type_declarator: $ => prec.dynamic(1, prec.right(seq('*', repeat($.type_qualifier), $._type_declarator))),
     abstract_pointer_declarator: $ => prec.dynamic(1, prec.right(seq('*', repeat($.type_qualifier), optional($._abstract_declarator)))),
 
-    function_declarator: $ => prec(1, seq($._declarator, $.parameter_list, repeat($.attribute_specifier))),
+    function_declarator: $ => seq($._declarator, $.parameter_list, repeat($.attribute_specifier)),
     function_field_declarator: $ => prec(1, seq($._field_declarator, $.parameter_list)),
     function_type_declarator: $ => prec(1, seq($._type_declarator, $.parameter_list)),
     abstract_function_declarator: $ => prec(1, seq(optional($._abstract_declarator), $.parameter_list)),
