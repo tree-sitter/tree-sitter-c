@@ -4560,7 +4560,6 @@
     "_field_identifier",
     "_statement_identifier"
   ],
-  "supertypes": [],
   "PREC": {
     "PAREN_DECLARATOR": -10,
     "ASSIGNMENT": -1,
@@ -4584,4 +4583,3 @@
     "SUBSCRIPT": 16
   }
 }
-
