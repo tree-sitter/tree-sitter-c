@@ -42,6 +42,9 @@ int main() {
 
   for (start(); check(); step())
     3;
+
+  for (i = 0, j = 0, k = 0, l = 0; i < 1; i++, j++, k++, l++)
+    1;
 }
 
 ---
@@ -56,14 +59,24 @@ int main() {
       (for_statement
         (declaration (primitive_type) (init_declarator (identifier) (number_literal)))
         (binary_expression (identifier) (number_literal))
-        (comma_expression
-          (call_expression (identifier) (argument_list))
-          (update_expression (identifier)))
+        (call_expression (identifier) (argument_list))
+        (update_expression (identifier))
         (compound_statement (expression_statement (number_literal))))
       (for_statement
         (call_expression (identifier) (argument_list))
         (call_expression (identifier) (argument_list))
         (call_expression (identifier) (argument_list))
+        (expression_statement (number_literal)))
+      (for_statement
+        (assignment_expression (identifier) (number_literal))
+        (assignment_expression (identifier) (number_literal))
+        (assignment_expression (identifier) (number_literal))
+        (assignment_expression (identifier) (number_literal))
+        (binary_expression (identifier) (number_literal))
+        (update_expression (identifier))
+        (update_expression (identifier))
+        (update_expression (identifier))
+        (update_expression (identifier))
         (expression_statement (number_literal))))))
 
 ============================================

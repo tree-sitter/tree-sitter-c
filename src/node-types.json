@@ -1218,6 +1218,10 @@
         "required": false,
         "types": [
           {
+            "type": ",",
+            "named": false
+          },
+          {
             "type": "_expression",
             "named": true
           },
@@ -1232,11 +1236,11 @@
         "required": false,
         "types": [
           {
-            "type": "_expression",
-            "named": true
+            "type": ",",
+            "named": false
           },
           {
-            "type": "comma_expression",
+            "type": "_expression",
             "named": true
           }
         ]
