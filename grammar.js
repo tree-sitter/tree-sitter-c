@@ -90,7 +90,7 @@ module.exports = grammar({
     ),
 
     preproc_params: $ => seq(
-      token.immediate('('), commaSep(choice($.identifier, '...')), ')'
+      token.immediate('('), commaSep(choice(seq(optional(/\\\r?\n/), $.identifier, optional(/\\\r?\n/)), '...')), ')'
     ),
 
     preproc_call: $ => seq(
