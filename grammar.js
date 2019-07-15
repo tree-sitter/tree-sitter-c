@@ -45,6 +45,7 @@ module.exports = grammar({
     [$._type_specifier, $._expression, $.macro_type_specifier],
     [$._type_specifier, $.macro_type_specifier],
     [$.sized_type_specifier],
+    [$.preproc_expression],
   ],
 
   word: $ => $.identifier,
@@ -104,6 +105,77 @@ module.exports = grammar({
 
     preproc_directive: $ => /#[ \t]*[a-zA-Z]\w*/,
     preproc_arg: $ => token(prec(-1, repeat1(/.|\\\r?\n/))),
+
+    line_continuation: $ => token(
+      /\\\r?\n/
+    ),
+
+    preproc_condition: $ => seq(
+      $.preproc_expression,
+      '\n',
+    ),
+
+    preproc_expression: $ => seq(
+      optional($.line_continuation),
+      choice(
+        $.identifier,
+        prec(PREC.CALL, seq($.identifier, '(', commaSep($.preproc_expression), ')')),
+        $.number_literal,
+        $.char_literal,
+        $.preproc_unary_expression,
+        $.preproc_binary_expression,
+        $.preproc_defined,
+        $.preproc_parenthesized_expression,
+      ),
+      optional($.line_continuation),
+    ),
+
+    preproc_parenthesized_expression: $ => seq(
+      '(',
+      $.preproc_expression,
+      ')'
+    ),
+
+    preproc_defined: $ => choice(
+      prec(PREC.CALL, seq('defined', '(', $.identifier, ')')),
+      seq('defined', $.identifier),
+    ),
+
+    preproc_unary_expression: $ => prec.left(PREC.UNARY, seq(
+      field('operator', choice('!', '~', '-', '+')),
+      field('argument', $.preproc_expression)
+    )),
+
+    preproc_binary_expression: $ => {
+      const table = [
+        ['+', PREC.ADD],
+        ['-', PREC.ADD],
+        ['*', PREC.MULTIPLY],
+        ['/', PREC.MULTIPLY],
+        ['%', PREC.MULTIPLY],
+        ['||', PREC.LOGICAL_OR],
+        ['&&', PREC.LOGICAL_AND],
+        ['|', PREC.INCLUSIVE_OR],
+        ['^', PREC.EXCLUSIVE_OR],
+        ['&', PREC.BITWISE_AND],
+        ['==', PREC.EQUAL],
+        ['!=', PREC.EQUAL],
+        ['>', PREC.RELATIONAL],
+        ['>=', PREC.RELATIONAL],
+        ['<=', PREC.RELATIONAL],
+        ['<', PREC.RELATIONAL],
+        ['<<', PREC.SHIFT],
+        ['>>', PREC.SHIFT],
+      ];
+
+      return choice(...table.map(([operator, precedence]) => {
+        return prec.left(precedence, seq(
+          field('left', $.preproc_expression),
+          field('operator', operator),
+          field('right', $.preproc_expression)
+        ))
+      }));
+    },
 
     // Main Grammar
 
@@ -869,7 +941,7 @@ function preprocIf (suffix, content) {
   return {
     ['preproc_if' + suffix]: $ => seq(
       preprocessor('if'),
-      field('condition', $.preproc_arg),
+      field('condition', $.preproc_condition),
       repeat(content($)),
       field('alternative', optional(elseBlock($))),
       preprocessor('endif')
@@ -890,7 +962,7 @@ function preprocIf (suffix, content) {
 
     ['preproc_elif' + suffix]: $ => seq(
       preprocessor('elif'),
-      field('condition', $.preproc_arg),
+      field('condition', $.preproc_condition),
       repeat(content($)),
       field('alternative', optional(elseBlock($))),
     )

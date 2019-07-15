@@ -107,7 +107,9 @@ int b;
       name: (identifier)
       value: (preproc_arg))
     alternative: (preproc_elif
-      condition: (preproc_arg)
+      condition: (preproc_condition
+        (preproc_expression
+          (preproc_defined (identifier))))
       alternative: (preproc_else
         (declaration
           type: (primitive_type)
@@ -140,11 +142,23 @@ General if blocks
 ---
 
 (translation_unit
-  (preproc_if (preproc_arg)
+  (preproc_if
+    (preproc_condition
+      (preproc_expression
+        (preproc_binary_expression
+          (preproc_expression
+            (preproc_defined (identifier)))
+          (preproc_expression
+            (preproc_defined (identifier))))))
     (preproc_def (identifier) (preproc_arg))
-    (preproc_elif (preproc_arg)
+    (preproc_elif
+      (preproc_condition
+        (preproc_expression (preproc_defined (identifier))))
       (preproc_def (identifier))
-      (preproc_elif (preproc_arg)
+      (preproc_elif
+        (preproc_condition
+          (preproc_expression
+            (preproc_unary_expression (preproc_expression (preproc_defined (identifier)))))) 
         (preproc_def (identifier))
         (preproc_else
           (preproc_include (system_lib_string)))))))
@@ -179,15 +193,18 @@ int main() {
     (function_declarator (identifier) (parameter_list))
     (compound_statement
       (preproc_if
-        (preproc_arg)
+        (preproc_condition (preproc_expression (identifier)))
         (expression_statement (call_expression (identifier) (argument_list (string_literal))))
         (preproc_else
           (expression_statement (call_expression (identifier) (argument_list (string_literal))))))
-      (preproc_if (preproc_arg)
+      (preproc_if
+        (preproc_condition (preproc_expression (identifier)))
         (return_statement (number_literal))
-        (preproc_elif (preproc_arg)
+        (preproc_elif
+          (preproc_condition (preproc_expression (identifier)))
           (return_statement (number_literal))
-          (preproc_elif (preproc_arg)
+          (preproc_elif
+            (preproc_condition (preproc_expression (identifier)))
             (return_statement (number_literal))
             (preproc_else
               (return_statement (number_literal)))))))))
