@@ -663,15 +663,17 @@ module.exports = grammar({
       field('alternative', $._expression)
     )),
 
-    assignment_expression: $ => prec.right(PREC.ASSIGNMENT, seq(
-      field('left', choice(
-        $.identifier,
-        $.call_expression,
-        $.field_expression,
-        $.pointer_expression,
-        $.subscript_expression,
-        $.parenthesized_expression
-      )),
+    _assignment_left_expression: $ => prec.right(PREC.ASSIGNMENT, choice(
+      $.identifier,
+      $.call_expression,
+      $.field_expression,
+      $.pointer_expression,
+      $.subscript_expression,
+      $.parenthesized_expression
+    )),
+
+    assignment_expression: $ => seq(
+      field('left', $._assignment_left_expression),
       choice(
         '=',
         '*=',
@@ -686,7 +688,7 @@ module.exports = grammar({
         '|='
       ),
       field('right', $._expression)
-    )),
+    ),
 
     pointer_expression: $ => prec.left(PREC.CAST, seq(
       field('operator', choice('*', '&')),
