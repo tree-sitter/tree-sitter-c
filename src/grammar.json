@@ -87,9 +87,21 @@
               {
                 "type": "SYMBOL",
                 "name": "system_lib_string"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "call_expression"
               }
             ]
           }
+        },
+        {
+          "type": "STRING",
+          "value": "\n"
         }
       ]
     },

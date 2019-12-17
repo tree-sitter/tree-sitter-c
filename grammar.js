@@ -71,7 +71,13 @@ module.exports = grammar({
 
     preproc_include: $ => seq(
       preprocessor('include'),
-      field('path', choice($.string_literal, $.system_lib_string))
+      field('path', choice(
+        $.string_literal,
+        $.system_lib_string,
+        $.identifier,
+        $.call_expression,
+      )),
+      '\n'
     ),
 
     preproc_def: $ => seq(
