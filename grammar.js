@@ -25,7 +25,7 @@ module.exports = grammar({
   name: 'c',
 
   extras: $ => [
-    /\s/,
+    /\s|\\\n/,
     $.comment,
   ],
 
@@ -45,7 +45,6 @@ module.exports = grammar({
     [$._type_specifier, $._expression, $.macro_type_specifier],
     [$._type_specifier, $.macro_type_specifier],
     [$.sized_type_specifier],
-    [$.preproc_expression],
   ],
 
   word: $ => $.identifier,
@@ -106,33 +105,20 @@ module.exports = grammar({
     preproc_directive: $ => /#[ \t]*[a-zA-Z]\w*/,
     preproc_arg: $ => token(prec(-1, repeat1(/.|\\\r?\n/))),
 
-    line_continuation: $ => token(
-      /\\\r?\n/
-    ),
-
-    preproc_condition: $ => seq(
-      $.preproc_expression,
-      '\n',
-    ),
-
-    preproc_expression: $ => seq(
-      optional($.line_continuation),
-      choice(
-        $.identifier,
-        prec(PREC.CALL, seq($.identifier, '(', commaSep($.preproc_expression), ')')),
-        $.number_literal,
-        $.char_literal,
-        $.preproc_unary_expression,
-        $.preproc_binary_expression,
-        $.preproc_defined,
-        $.preproc_parenthesized_expression,
-      ),
-      optional($.line_continuation),
+    _preproc_expression: $ => choice(
+      $.identifier,
+      alias($.preproc_call_expression, $.call_expression),
+      $.number_literal,
+      $.char_literal,
+      $.preproc_defined,
+      alias($.preproc_unary_expression, $.unary_expression),
+      alias($.preproc_binary_expression, $.binary_expression),
+      alias($.preproc_parenthesized_expression, $.parenthesized_expression)
     ),
 
     preproc_parenthesized_expression: $ => seq(
       '(',
-      $.preproc_expression,
+      $._preproc_expression,
       ')'
     ),
 
@@ -143,8 +129,19 @@ module.exports = grammar({
 
     preproc_unary_expression: $ => prec.left(PREC.UNARY, seq(
       field('operator', choice('!', '~', '-', '+')),
-      field('argument', $.preproc_expression)
+      field('argument', $._preproc_expression)
     )),
+
+    preproc_call_expression: $ => prec(PREC.CALL, seq(
+      field('function', $.identifier),
+      field('arguments', alias($.preproc_argument_list, $.argument_list))
+    )),
+
+    preproc_argument_list: $ => seq(
+      '(',
+      commaSep($._preproc_expression),
+      ')'
+    ),
 
     preproc_binary_expression: $ => {
       const table = [
@@ -170,9 +167,9 @@ module.exports = grammar({
 
       return choice(...table.map(([operator, precedence]) => {
         return prec.left(precedence, seq(
-          field('left', $.preproc_expression),
+          field('left', $._preproc_expression),
           field('operator', operator),
-          field('right', $.preproc_expression)
+          field('right', $._preproc_expression)
         ))
       }));
     },
@@ -852,7 +849,7 @@ module.exports = grammar({
       ),
       '\''
     ),
-    
+
     concatenated_string: $ => seq(
       $.string_literal,
       repeat1($.string_literal)
@@ -867,7 +864,7 @@ module.exports = grammar({
       '"',
     ),
 
-    escape_sequence: $ => token.immediate(seq(
+    escape_sequence: $ => token(prec(1, seq(
       '\\',
       choice(
         /[^xuU]/,
@@ -876,7 +873,7 @@ module.exports = grammar({
         /u[0-9a-fA-F]{4}/,
         /U[0-9a-fA-F]{8}/
       )
-    )),
+    ))),
 
     system_lib_string: $ => token(seq(
       '<',
@@ -941,7 +938,8 @@ function preprocIf (suffix, content) {
   return {
     ['preproc_if' + suffix]: $ => seq(
       preprocessor('if'),
-      field('condition', $.preproc_condition),
+      field('condition', $._preproc_expression),
+      '\n',
       repeat(content($)),
       field('alternative', optional(elseBlock($))),
       preprocessor('endif')
@@ -962,7 +960,8 @@ function preprocIf (suffix, content) {
 
     ['preproc_elif' + suffix]: $ => seq(
       preprocessor('elif'),
-      field('condition', $.preproc_condition),
+      field('condition', $._preproc_expression),
+      '\n',
       repeat(content($)),
       field('alternative', optional(elseBlock($))),
     )
