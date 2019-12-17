@@ -93,8 +93,13 @@
                 "name": "identifier"
               },
               {
-                "type": "SYMBOL",
-                "name": "call_expression"
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "preproc_call_expression"
+                },
+                "named": true,
+                "value": "call_expression"
               }
             ]
           }

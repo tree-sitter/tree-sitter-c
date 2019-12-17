@@ -75,7 +75,7 @@ module.exports = grammar({
         $.string_literal,
         $.system_lib_string,
         $.identifier,
-        $.call_expression,
+        alias($.preproc_call_expression, $.call_expression),
       )),
       '\n'
     ),
