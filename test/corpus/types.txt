@@ -1,25 +1,14 @@
 ========================================
-Primitive types
+Built-in types
 ========================================
 
+_Bool a;
+_Complex a;
+_Imaginary a;
+char a;
 int a;
-uint8_t a;
-uint16_t a;
-uint32_t a;
-uint64_t a;
-uintptr_t a;
-
-int8_t a;
-int16_t a;
-int32_t a;
-int64_t a;
-intptr_t a;
-
-char16_t a;
-char32_t a;
-
-size_t a;
-ssize_t a;
+float a;
+double a;
 
 ---
 
@@ -30,15 +19,84 @@ ssize_t a;
   (declaration (primitive_type) (identifier))
   (declaration (primitive_type) (identifier))
   (declaration (primitive_type) (identifier))
-  (declaration (primitive_type) (identifier))
-  (declaration (primitive_type) (identifier))
-  (declaration (primitive_type) (identifier))
-  (declaration (primitive_type) (identifier))
-  (declaration (primitive_type) (identifier))
-  (declaration (primitive_type) (identifier))
-  (declaration (primitive_type) (identifier))
-  (declaration (primitive_type) (identifier))
   (declaration (primitive_type) (identifier)))
+
+========================================
+Non-built-in standard type definitions
+========================================
+
+// Common definitions
+ptrdiff_t a;
+size_t a;
+wchar_t a;
+
+// Integer types
+int8_t a;
+int16_t a;
+int32_t a;
+int64_t a;
+
+uint8_t a;
+uint16_t a;
+uint32_t a;
+uint64_t a;
+
+int_least8_t a;
+int_least16_t a;
+int_least32_t a;
+int_least64_t a;
+
+uint_least8_t a;
+uint_least16_t a;
+uint_least32_t a;
+uint_least64_t a;
+
+intptr_t a;
+uintptr_t a;
+
+intmax_t a;
+uintmax_t a;
+
+// C11
+char16_t a;
+char32_t a;
+
+// POSIX
+ssize_t a;
+
+---
+
+(translation_unit
+  (comment)
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (comment)
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (comment)
+  (declaration (type_identifier) (identifier))
+  (declaration (type_identifier) (identifier))
+  (comment)
+  (declaration (type_identifier) (identifier)))
 
 ========================================
 Type modifiers

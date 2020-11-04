@@ -218,6 +218,7 @@ Typedefs
 ============================================
 
 typedef int my_int;
+typedef _Complex size_t;
 
 typedef struct {
   int x;
@@ -232,6 +233,9 @@ typedef struct A {
 ---
 
 (translation_unit
+  (type_definition
+    type: (primitive_type)
+    declarator: (type_identifier))
   (type_definition
     type: (primitive_type)
     declarator: (type_identifier))
@@ -252,7 +256,7 @@ typedef struct A {
           type: (primitive_type)
           declarator: (abstract_pointer_declarator))
         (parameter_declaration
-          type: (primitive_type)))))
+          type: (type_identifier)))))
   (type_definition
     type: (struct_specifier
       name: (type_identifier)

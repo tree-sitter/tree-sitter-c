@@ -461,20 +461,14 @@ module.exports = grammar({
     ),
 
     primitive_type: $ => token(choice(
-      'bool',
+      '_Bool',
+      '_Complex',
+      '_Imaginary',
       'char',
       'int',
       'float',
       'double',
       'void',
-      'size_t',
-      'ssize_t',
-      'intptr_t',
-      'uintptr_t',
-      'charptr_t',
-      ...[8, 16, 32, 64].map(n => `int${n}_t`),
-      ...[8, 16, 32, 64].map(n => `uint${n}_t`),
-      ...[8, 16, 32, 64].map(n => `char${n}_t`)
     )),
 
     enum_specifier: $ => seq(

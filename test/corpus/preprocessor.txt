@@ -115,7 +115,7 @@ int b;
   (preproc_ifdef
     name: (identifier)
     (declaration
-      type: (primitive_type)
+      type: (type_identifier)
       declarator: (identifier))
     (preproc_def
       name: (identifier)
@@ -238,7 +238,7 @@ struct S {
     (preproc_ifdef (identifier)
       (field_declaration (type_identifier) (field_identifier))
       (preproc_else
-        (field_declaration (primitive_type) (field_identifier)))))))
+        (field_declaration (type_identifier) (field_identifier)))))))
 
 ====================================
 Unknown preprocessor directives
@@ -271,4 +271,4 @@ uint32_t a;
       (call_expression (identifier) (argument_list (binary_expression (identifier) (identifier))))
       (unary_expression
         (call_expression (identifier) (argument_list (identifier)))))
-    (declaration (primitive_type) (identifier))))
+    (declaration (type_identifier) (identifier))))
