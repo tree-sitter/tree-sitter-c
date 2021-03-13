@@ -357,18 +357,18 @@ extern "C" {
 
 (translation_unit
   (linkage_specification
-    (string_literal)
+    (string_literal (plain_string))
     (declaration
       (primitive_type)
       (function_declarator (identifier) (parameter_list))))
   (linkage_specification
-    (string_literal)
+    (string_literal (plain_string))
     (function_definition
       (primitive_type)
       (function_declarator (identifier) (parameter_list))
       (compound_statement (return_statement (number_literal)))))
   (linkage_specification
-    (string_literal)
+    (string_literal (plain_string))
     (declaration_list
       (declaration
         (primitive_type)
@@ -439,7 +439,7 @@ extern __attribute__((visibility("default"), weak)) int print_status();
     (attribute_specifier
       (argument_list
         (call_expression
-          (identifier) (argument_list (string_literal)))))
+          (identifier) (argument_list (string_literal (plain_string))))))
     (primitive_type)
     (function_declarator (identifier) (parameter_list)))
   (declaration
@@ -456,5 +456,5 @@ extern __attribute__((visibility("default"), weak)) int print_status();
   (declaration
     (storage_class_specifier)
     (attribute_specifier
-      (argument_list (call_expression (identifier) (argument_list (string_literal))) (identifier)))
+      (argument_list (call_expression (identifier) (argument_list (string_literal (plain_string)))) (identifier)))
     (primitive_type) (function_declarator (identifier) (parameter_list))))

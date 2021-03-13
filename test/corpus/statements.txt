@@ -107,7 +107,7 @@ int main() {
       (while_statement (parenthesized_expression (identifier))
         (expression_statement (call_expression
           (identifier)
-          (argument_list (string_literal))))))))
+          (argument_list (string_literal (plain_string)))))))))
 
 ============================================
 Labeled statements
@@ -165,7 +165,7 @@ void foo(int a) {
       (switch_statement
         (parenthesized_expression (identifier))
         (compound_statement
-          (expression_statement (call_expression (identifier) (argument_list (string_literal))))
+          (expression_statement (call_expression (identifier) (argument_list (string_literal (plain_string)))))
           (case_statement (number_literal))
           (case_statement (number_literal)
             (if_statement
