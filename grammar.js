@@ -904,10 +904,12 @@ module.exports = grammar({
       choice('L\'', 'u\'', 'U\'', 'u8\'', '\''),
       choice(
         $.escape_sequence,
-        token.immediate(/[^\n']/)
+        $.plain_char
       ),
       '\''
     ),
+
+    plain_char: $ => token.immediate(/[^\n']/),
 
     concatenated_string: $ => seq(
       $.string_literal,
@@ -917,11 +919,13 @@ module.exports = grammar({
     string_literal: $ => seq(
       choice('L"', 'u"', 'U"', 'u8"', '"'),
       repeat(choice(
-        token.immediate(prec(1, /[^\\"\n]+/)),
+        $.plain_string,
         $.escape_sequence
       )),
       '"',
     ),
+
+    plain_string: $ => token.immediate(prec(1, /[^\\"\n]+/)),
 
     escape_sequence: $ => token(prec(1, seq(
       '\\',

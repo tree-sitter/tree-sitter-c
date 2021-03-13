@@ -6012,11 +6012,8 @@
               "name": "escape_sequence"
             },
             {
-              "type": "IMMEDIATE_TOKEN",
-              "content": {
-                "type": "PATTERN",
-                "value": "[^\\n']"
-              }
+              "type": "SYMBOL",
+              "name": "plain_char"
             }
           ]
         },
@@ -6025,6 +6022,13 @@
           "value": "'"
         }
       ]
+    },
+    "plain_char": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[^\\n']"
+      }
     },
     "concatenated_string": {
       "type": "SEQ",
@@ -6076,15 +6080,8 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "IMMEDIATE_TOKEN",
-                "content": {
-                  "type": "PREC",
-                  "value": 1,
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "[^\\\\\"\\n]+"
-                  }
-                }
+                "type": "SYMBOL",
+                "name": "plain_string"
               },
               {
                 "type": "SYMBOL",
@@ -6098,6 +6095,17 @@
           "value": "\""
         }
       ]
+    },
+    "plain_string": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[^\\\\\"\\n]+"
+        }
+      }
     },
     "escape_sequence": {
       "type": "TOKEN",
@@ -6312,7 +6320,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
+                "value": "[^*]*\\*+([^\\/*][^*]*\\*+)*"
               },
               {
                 "type": "STRING",
