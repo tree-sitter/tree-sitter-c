@@ -10,7 +10,7 @@ Include directives
 ---
 
 (translation_unit
-  (preproc_include path: (string_literal))
+  (preproc_include path: (string_literal (plain_string)))
   (preproc_include path: (system_lib_string))
   (preproc_include path: (identifier))
   (preproc_include path:
@@ -204,9 +204,9 @@ int main() {
     (compound_statement
       (preproc_if
         (identifier)
-        (expression_statement (call_expression (identifier) (argument_list (string_literal))))
+        (expression_statement (call_expression (identifier) (argument_list (string_literal (plain_string)))))
         (preproc_else
-          (expression_statement (call_expression (identifier) (argument_list (string_literal))))))
+          (expression_statement (call_expression (identifier) (argument_list (string_literal (plain_string)))))))
       (preproc_if
         (identifier)
         (return_statement (number_literal))

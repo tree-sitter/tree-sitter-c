@@ -784,10 +784,14 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "plain_char",
           "named": true
         }
       ]
@@ -2566,6 +2570,10 @@
         {
           "type": "escape_sequence",
           "named": true
+        },
+        {
+          "type": "plain_string",
+          "named": true
         }
       ]
     }
@@ -3313,6 +3321,14 @@
   },
   {
     "type": "number_literal",
+    "named": true
+  },
+  {
+    "type": "plain_char",
+    "named": true
+  },
+  {
+    "type": "plain_string",
     "named": true
   },
   {
