@@ -30,6 +30,10 @@
         "named": true
       },
       {
+        "type": "attributed_declarator",
+        "named": true
+      },
+      {
         "type": "function_declarator",
         "named": true
       },
@@ -285,16 +289,6 @@
     "type": "abstract_array_declarator",
     "named": true,
     "fields": {
-      "attributes": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "attribute",
-            "named": true
-          }
-        ]
-      },
       "declarator": {
         "multiple": false,
         "required": false,
@@ -335,16 +329,6 @@
     "type": "abstract_function_declarator",
     "named": true,
     "fields": {
-      "attributes": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "attribute",
-            "named": true
-          }
-        ]
-      },
       "declarator": {
         "multiple": false,
         "required": false,
@@ -386,16 +370,6 @@
     "type": "abstract_pointer_declarator",
     "named": true,
     "fields": {
-      "attributes": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "attribute",
-            "named": true
-          }
-        ]
-      },
       "declarator": {
         "multiple": false,
         "required": false,
@@ -441,16 +415,6 @@
     "type": "array_declarator",
     "named": true,
     "fields": {
-      "attributes": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "attribute",
-            "named": true
-          }
-        ]
-      },
       "declarator": {
         "multiple": false,
         "required": true,
@@ -594,21 +558,6 @@
   {
     "type": "attribute",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "attribute_declarator",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "attribute_declarator",
-    "named": true,
     "fields": {
       "name": {
         "multiple": false,
@@ -643,6 +592,21 @@
     }
   },
   {
+    "type": "attribute_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attribute",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "attribute_specifier",
     "named": true,
     "fields": {},
@@ -658,26 +622,38 @@
     }
   },
   {
+    "type": "attributed_declarator",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_declarator",
+          "named": true
+        },
+        {
+          "type": "attribute_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "attributed_statement",
     "named": true,
-    "fields": {
-      "attributes": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "attribute",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "_statement",
+          "named": true
+        },
+        {
+          "type": "attribute_definition",
           "named": true
         }
       ]
@@ -1139,16 +1115,6 @@
     "type": "declaration",
     "named": true,
     "fields": {
-      "attributes": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "attribute",
-            "named": true
-          }
-        ]
-      },
       "declarator": {
         "multiple": true,
         "required": true,
@@ -1178,6 +1144,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "attribute_definition",
+          "named": true
+        },
         {
           "type": "attribute_specifier",
           "named": true
@@ -1402,6 +1372,10 @@
       "required": false,
       "types": [
         {
+          "type": "attribute_definition",
+          "named": true
+        },
+        {
           "type": "attribute_specifier",
           "named": true
         },
@@ -1576,16 +1550,6 @@
     "type": "function_declarator",
     "named": true,
     "fields": {
-      "attributes": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "attribute",
-            "named": true
-          }
-        ]
-      },
       "declarator": {
         "multiple": false,
         "required": true,
@@ -1630,16 +1594,6 @@
     "type": "function_definition",
     "named": true,
     "fields": {
-      "attributes": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "attribute",
-            "named": true
-          }
-        ]
-      },
       "body": {
         "multiple": false,
         "required": true,
@@ -1675,6 +1629,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "attribute_definition",
+          "named": true
+        },
         {
           "type": "attribute_specifier",
           "named": true
@@ -1754,16 +1712,6 @@
     "type": "init_declarator",
     "named": true,
     "fields": {
-      "attributes": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "attribute",
-            "named": true
-          }
-        ]
-      },
       "declarator": {
         "multiple": false,
         "required": true,
@@ -2004,16 +1952,6 @@
     "type": "parameter_declaration",
     "named": true,
     "fields": {
-      "attributes": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "attribute",
-            "named": true
-          }
-        ]
-      },
       "declarator": {
         "multiple": false,
         "required": false,
@@ -2043,6 +1981,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "attribute_definition",
+          "named": true
+        },
         {
           "type": "attribute_specifier",
           "named": true
@@ -2127,16 +2069,6 @@
     "type": "pointer_declarator",
     "named": true,
     "fields": {
-      "attributes": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "attribute",
-            "named": true
-          }
-        ]
-      },
       "declarator": {
         "multiple": false,
         "required": true,

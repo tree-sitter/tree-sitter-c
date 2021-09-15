@@ -46,6 +46,7 @@ module.exports = grammar({
     [$._type_specifier, $._expression, $.macro_type_specifier],
     [$._type_specifier, $.macro_type_specifier],
     [$.sized_type_specifier],
+    [$._declaration_specifiers, $.attributed_statement],
   ],
 
   word: $ => $.identifier,
@@ -186,20 +187,17 @@ module.exports = grammar({
 
     function_definition: $ => seq(
       optional($.ms_call_modifier),
-      field('attributes', repeat($.attribute)),
       $._declaration_specifiers,
       field('declarator', $._declarator),
       field('body', $.compound_statement)
     ),
 
     declaration: $ => seq(
-      field('attributes', repeat($.attribute)),
       $._declaration_specifiers,
       commaSep1(field('declarator', choice(
         $._declarator,
         $.init_declarator
       ))),
-      field('attributes', repeat($.attribute)),
       ';'
     ),
 
@@ -216,6 +214,7 @@ module.exports = grammar({
         $.storage_class_specifier,
         $.type_qualifier,
         $.attribute_specifier,
+        $.attribute_definition,
         $.ms_declspec_modifier
       )),
       field('type', $._type_specifier),
@@ -223,6 +222,7 @@ module.exports = grammar({
         $.storage_class_specifier,
         $.type_qualifier,
         $.attribute_specifier,
+        $.attribute_definition,
         $.ms_declspec_modifier
       ))
     ),
@@ -244,15 +244,15 @@ module.exports = grammar({
       ')'
     ),
 
-    attribute_declarator: $ => seq(
+    attribute: $ => seq(
       optional(seq(field('prefix', $.identifier), '::')),
       field('name', $.identifier),
       optional($.argument_list)
     ),
 
-    attribute: $ => seq(
+    attribute_definition: $ => seq(
       '[[',
-      commaSep1($.attribute_declarator),
+      commaSep1($.attribute),
       ']]'
     ),
 
@@ -299,6 +299,7 @@ module.exports = grammar({
     ),
 
     _declarator: $ => choice(
+      $.attributed_declarator,
       $.pointer_declarator,
       $.function_declarator,
       $.array_declarator,
@@ -351,63 +352,58 @@ module.exports = grammar({
     )),
 
 
+    attributed_declarator: $ => prec.right(seq(
+      $._declarator,
+      repeat1($.attribute_definition),
+    )),
 
     pointer_declarator: $ => prec.dynamic(1, prec.right(seq(
       optional($.ms_based_modifier),
       '*',
       repeat($.ms_pointer_modifier),
       repeat($.type_qualifier),
-      field('declarator', $._declarator),
-      field('attributes', repeat($.attribute))
+      field('declarator', $._declarator)
     ))),
     pointer_field_declarator: $ => prec.dynamic(1, prec.right(seq(
       optional($.ms_based_modifier),
       '*',
       repeat($.ms_pointer_modifier),
       repeat($.type_qualifier),
-      field('declarator', $._field_declarator),
-      field('attributes', repeat($.attribute))
+      field('declarator', $._field_declarator)
     ))),
     pointer_type_declarator: $ => prec.dynamic(1, prec.right(seq(
       optional($.ms_based_modifier),
       '*',
       repeat($.ms_pointer_modifier),
       repeat($.type_qualifier),
-      field('declarator', $._type_declarator),
-      field('attributes', repeat($.attribute))
+      field('declarator', $._type_declarator)
     ))),
     abstract_pointer_declarator: $ => prec.dynamic(1, prec.right(seq('*',
       repeat($.type_qualifier),
-      field('declarator', optional($._abstract_declarator)),
-      field('attributes', repeat($.attribute))
+      field('declarator', optional($._abstract_declarator))
     ))),
 
     function_declarator: $ => prec(1,
       seq(
         field('declarator', $._declarator),
-        field('attributes', repeat($.attribute)),
         field('parameters', $.parameter_list),
         repeat($.attribute_specifier),
       )),
     function_field_declarator: $ => prec(1, seq(
       field('declarator', $._field_declarator),
-      field('attributes', repeat($.attribute)),
       field('parameters', $.parameter_list)
     )),
     function_type_declarator: $ => prec(1, seq(
       field('declarator', $._type_declarator),
-      field('attributes', repeat($.attribute)),
       field('parameters', $.parameter_list)
     )),
     abstract_function_declarator: $ => prec(1, seq(
       field('declarator', optional($._abstract_declarator)),
-      field('attributes', repeat($.attribute)),
       field('parameters', $.parameter_list)
     )),
 
     array_declarator: $ => prec(1, seq(
       field('declarator', $._declarator),
-      field('attributes', repeat($.attribute)),
       '[',
       repeat($.type_qualifier),
       field('size', optional(choice($._expression, '*'))),
@@ -415,7 +411,6 @@ module.exports = grammar({
     )),
     array_field_declarator: $ => prec(1, seq(
       field('declarator', $._field_declarator),
-      field('attributes', repeat($.attribute)),
       '[',
       repeat($.type_qualifier),
       field('size', optional(choice($._expression, '*'))),
@@ -423,7 +418,6 @@ module.exports = grammar({
     )),
     array_type_declarator: $ => prec(1, seq(
       field('declarator', $._type_declarator),
-      field('attributes', repeat($.attribute)),
       '[',
       repeat($.type_qualifier),
       field('size', optional(choice($._expression, '*'))),
@@ -431,7 +425,6 @@ module.exports = grammar({
     )),
     abstract_array_declarator: $ => prec(1, seq(
       field('declarator', optional($._abstract_declarator)),
-      field('attributes', repeat($.attribute)),
       '[',
       repeat($.type_qualifier),
       field('size', optional(choice($._expression, '*'))),
@@ -440,7 +433,6 @@ module.exports = grammar({
 
     init_declarator: $ => seq(
       field('declarator', $._declarator),
-      field('attributes', repeat($.attribute)),
       '=',
       field('value', choice($.initializer_list, $._expression))
     ),
@@ -584,7 +576,6 @@ module.exports = grammar({
     ),
 
     parameter_declaration: $ => seq(
-      field('attributes', repeat($.attribute)),
       $._declaration_specifiers,
       optional(field('declarator', choice(
         $._declarator,
@@ -595,7 +586,7 @@ module.exports = grammar({
     // Statements
 
     attributed_statement: $ => seq(
-      field('attributes', repeat1($.attribute)),
+      repeat1($.attribute_definition),
       $._statement
     ),
 

@@ -473,34 +473,37 @@ void f[[gnu::always_inline]]();
     (primitive_type) (function_declarator (identifier) (parameter_list)))
   (function_definition (primitive_type)
     (function_declarator (identifier) (parameter_list (parameter_declaration
-      (attribute
-        (attribute_declarator (identifier) (identifier) (argument_list (identifier)))
-        (attribute_declarator (identifier)))
+      (attribute_definition
+        (attribute (identifier) (identifier) (argument_list (identifier)))
+        (attribute (identifier)))
       (primitive_type) (identifier)))) (compound_statement))
   (declaration
-    (attribute (attribute_declarator (identifier) (identifier)))
-    (attribute (attribute_declarator (identifier) (identifier)))
-    (attribute (attribute_declarator (identifier) (identifier)))
-    (attribute (attribute_declarator (identifier)))
+    (attribute_definition (attribute (identifier) (identifier)))
+    (attribute_definition (attribute (identifier) (identifier)))
+    (attribute_definition (attribute (identifier) (identifier)))
+    (attribute_definition (attribute (identifier)))
     (primitive_type)
     (function_declarator (identifier) (parameter_list (parameter_declaration (primitive_type)))))
   (declaration
-    (attribute
-      (attribute_declarator (identifier) (identifier))
-      (attribute_declarator (identifier) (identifier))
-      (attribute_declarator (identifier) (identifier))
-      (attribute_declarator (identifier)))
+    (attribute_definition
+      (attribute (identifier) (identifier))
+      (attribute (identifier) (identifier))
+      (attribute (identifier) (identifier))
+      (attribute (identifier)))
     (primitive_type)
     (function_declarator (identifier) (parameter_list (parameter_declaration (primitive_type)))))
   (declaration
     (primitive_type)
-    (identifier)
-    (attribute (attribute_declarator (identifier))))
+    (attributed_declarator
+      (identifier)
+      (attribute_definition (attribute (identifier)))))
   (declaration
     (primitive_type)
-    (function_declarator (identifier)
-      (attribute (attribute_declarator (identifier) (identifier)))
+    (function_declarator
+      (attributed_declarator
+        (identifier)
+        (attribute_definition (attribute (identifier) (identifier))))
       (parameter_list)))
   (declaration
-    (attribute (attribute_declarator (identifier) (argument_list (string_literal))))
+    (attribute_definition (attribute (identifier) (argument_list (string_literal))))
     (primitive_type) (identifier)))
