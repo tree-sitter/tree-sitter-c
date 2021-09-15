@@ -185,17 +185,20 @@ module.exports = grammar({
 
     function_definition: $ => seq(
       optional($.ms_call_modifier),
+      field('attributes', repeat($.attribute)),
       $._declaration_specifiers,
       field('declarator', $._declarator),
       field('body', $.compound_statement)
     ),
 
     declaration: $ => seq(
+      field('attributes', repeat($.attribute)),
       $._declaration_specifiers,
       commaSep1(field('declarator', choice(
         $._declarator,
         $.init_declarator
       ))),
+      field('attributes', repeat($.attribute)),
       ';'
     ),
 
@@ -238,6 +241,18 @@ module.exports = grammar({
       '(',
       $.argument_list,
       ')'
+    ),
+
+    attribute_declarator: $ => seq(
+      optional(seq(field('prefix', $.identifier), '::')),
+      field('name', $.identifier),
+      optional($.argument_list)
+    ),
+
+    attribute: $ => seq(
+      '[[',
+      commaSep1($.attribute_declarator),
+      ']]'
     ),
 
     ms_declspec_modifier: $ => seq(
@@ -365,24 +380,29 @@ module.exports = grammar({
     function_declarator: $ => prec(1,
       seq(
         field('declarator', $._declarator),
+        field('attributes', repeat($.attribute)),
         field('parameters', $.parameter_list),
         repeat($.attribute_specifier),
       )),
     function_field_declarator: $ => prec(1, seq(
       field('declarator', $._field_declarator),
+      field('attributes', repeat($.attribute)),
       field('parameters', $.parameter_list)
     )),
     function_type_declarator: $ => prec(1, seq(
       field('declarator', $._type_declarator),
+      field('attributes', repeat($.attribute)),
       field('parameters', $.parameter_list)
     )),
     abstract_function_declarator: $ => prec(1, seq(
       field('declarator', optional($._abstract_declarator)),
+      field('attributes', repeat($.attribute)),
       field('parameters', $.parameter_list)
     )),
 
     array_declarator: $ => prec(1, seq(
       field('declarator', $._declarator),
+      field('attributes', repeat($.attribute)),
       '[',
       repeat($.type_qualifier),
       field('size', optional(choice($._expression, '*'))),
@@ -390,6 +410,7 @@ module.exports = grammar({
     )),
     array_field_declarator: $ => prec(1, seq(
       field('declarator', $._field_declarator),
+      field('attributes', repeat($.attribute)),
       '[',
       repeat($.type_qualifier),
       field('size', optional(choice($._expression, '*'))),
@@ -397,6 +418,7 @@ module.exports = grammar({
     )),
     array_type_declarator: $ => prec(1, seq(
       field('declarator', $._type_declarator),
+      field('attributes', repeat($.attribute)),
       '[',
       repeat($.type_qualifier),
       field('size', optional(choice($._expression, '*'))),
@@ -404,6 +426,7 @@ module.exports = grammar({
     )),
     abstract_array_declarator: $ => prec(1, seq(
       field('declarator', optional($._abstract_declarator)),
+      field('attributes', repeat($.attribute)),
       '[',
       repeat($.type_qualifier),
       field('size', optional(choice($._expression, '*'))),
@@ -412,6 +435,7 @@ module.exports = grammar({
 
     init_declarator: $ => seq(
       field('declarator', $._declarator),
+      field('attributes', repeat($.attribute)),
       '=',
       field('value', choice($.initializer_list, $._expression))
     ),
@@ -555,6 +579,7 @@ module.exports = grammar({
     ),
 
     parameter_declaration: $ => seq(
+      field('attributes', repeat($.attribute)),
       $._declaration_specifiers,
       optional(field('declarator', choice(
         $._declarator,
@@ -585,12 +610,14 @@ module.exports = grammar({
     ),
 
     labeled_statement: $ => seq(
+      field('attributes', repeat($.attribute)),
       field('label', $._statement_identifier),
       ':',
       $._statement
     ),
 
     expression_statement: $ => seq(
+      field('attributes', repeat($.attribute)),
       optional(choice(
         $._expression,
         $.comma_expression
@@ -599,6 +626,7 @@ module.exports = grammar({
     ),
 
     if_statement: $ => prec.right(seq(
+      field('attributes', repeat($.attribute)),
       'if',
       field('condition', $.parenthesized_expression),
       field('consequence', $._statement),
@@ -609,12 +637,14 @@ module.exports = grammar({
     )),
 
     switch_statement: $ => seq(
+      field('attributes', repeat($.attribute)),
       'switch',
       field('condition', $.parenthesized_expression),
       field('body', $.compound_statement)
     ),
 
     case_statement: $ => prec.right(seq(
+      field('attributes', repeat($.attribute)),
       choice(
         seq('case', field('value', $._expression)),
         'default'
@@ -628,12 +658,14 @@ module.exports = grammar({
     )),
 
     while_statement: $ => seq(
+      field('attributes', repeat($.attribute)),
       'while',
       field('condition', $.parenthesized_expression),
       field('body', $._statement)
     ),
 
     do_statement: $ => seq(
+      field('attributes', repeat($.attribute)),
       'do',
       field('body', $._statement),
       'while',
@@ -642,6 +674,7 @@ module.exports = grammar({
     ),
 
     for_statement: $ => seq(
+      field('attributes', repeat($.attribute)),
       'for',
       '(',
       choice(
@@ -655,20 +688,24 @@ module.exports = grammar({
     ),
 
     return_statement: $ => seq(
+      field('attributes', repeat($.attribute)),
       'return',
       optional(choice($._expression, $.comma_expression)),
       ';'
     ),
 
     break_statement: $ => seq(
+      field('attributes', repeat($.attribute)),
       'break', ';'
     ),
 
     continue_statement: $ => seq(
+      field('attributes', repeat($.attribute)),
       'continue', ';'
     ),
 
     goto_statement: $ => seq(
+      field('attributes', repeat($.attribute)),
       'goto',
       field('label', $._statement_identifier),
       ';'
