@@ -58,6 +58,7 @@ module.exports = grammar({
       $.linkage_specification,
       $.declaration,
       $._statement,
+      $.attributed_statement,
       $.type_definition,
       $._empty_declaration,
       $.preproc_if,
@@ -589,6 +590,11 @@ module.exports = grammar({
 
     // Statements
 
+    attributed_statement: $ => seq(
+      field('attributes', repeat1($.attribute)),
+      $._statement
+    ),
+
     _statement: $ => choice(
       $.case_statement,
       $._non_case_statement
@@ -610,14 +616,12 @@ module.exports = grammar({
     ),
 
     labeled_statement: $ => seq(
-      field('attributes', repeat($.attribute)),
       field('label', $._statement_identifier),
       ':',
       $._statement
     ),
 
     expression_statement: $ => seq(
-      field('attributes', repeat($.attribute)),
       optional(choice(
         $._expression,
         $.comma_expression
@@ -626,7 +630,6 @@ module.exports = grammar({
     ),
 
     if_statement: $ => prec.right(seq(
-      field('attributes', repeat($.attribute)),
       'if',
       field('condition', $.parenthesized_expression),
       field('consequence', $._statement),
@@ -637,14 +640,12 @@ module.exports = grammar({
     )),
 
     switch_statement: $ => seq(
-      field('attributes', repeat($.attribute)),
       'switch',
       field('condition', $.parenthesized_expression),
       field('body', $.compound_statement)
     ),
 
     case_statement: $ => prec.right(seq(
-      field('attributes', repeat($.attribute)),
       choice(
         seq('case', field('value', $._expression)),
         'default'
@@ -658,14 +659,12 @@ module.exports = grammar({
     )),
 
     while_statement: $ => seq(
-      field('attributes', repeat($.attribute)),
       'while',
       field('condition', $.parenthesized_expression),
       field('body', $._statement)
     ),
 
     do_statement: $ => seq(
-      field('attributes', repeat($.attribute)),
       'do',
       field('body', $._statement),
       'while',
@@ -674,7 +673,6 @@ module.exports = grammar({
     ),
 
     for_statement: $ => seq(
-      field('attributes', repeat($.attribute)),
       'for',
       '(',
       choice(
@@ -688,24 +686,20 @@ module.exports = grammar({
     ),
 
     return_statement: $ => seq(
-      field('attributes', repeat($.attribute)),
       'return',
       optional(choice($._expression, $.comma_expression)),
       ';'
     ),
 
     break_statement: $ => seq(
-      field('attributes', repeat($.attribute)),
       'break', ';'
     ),
 
     continue_statement: $ => seq(
-      field('attributes', repeat($.attribute)),
       'continue', ';'
     ),
 
     goto_statement: $ => seq(
-      field('attributes', repeat($.attribute)),
       'goto',
       field('label', $._statement_identifier),
       ';'
