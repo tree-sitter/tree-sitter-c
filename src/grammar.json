@@ -2432,6 +2432,17 @@
                 "type": "SYMBOL",
                 "name": "_declarator"
               }
+            },
+            {
+              "type": "FIELD",
+              "name": "attributes",
+              "content": {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "attribute"
+                }
+              }
             }
           ]
         }
@@ -2482,6 +2493,17 @@
               "content": {
                 "type": "SYMBOL",
                 "name": "_field_declarator"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "attributes",
+              "content": {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "attribute"
+                }
               }
             }
           ]
@@ -2534,6 +2556,17 @@
                 "type": "SYMBOL",
                 "name": "_type_declarator"
               }
+            },
+            {
+              "type": "FIELD",
+              "name": "attributes",
+              "content": {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "attribute"
+                }
+              }
             }
           ]
         }
@@ -2573,6 +2606,17 @@
                     "type": "BLANK"
                   }
                 ]
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "attributes",
+              "content": {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "attribute"
+                }
               }
             }
           ]

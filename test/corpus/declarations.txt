@@ -431,6 +431,8 @@ void die(const char *format, ...) __attribute__((noreturn))
                                   __attribute__((format(printf,1,2)));
 extern __attribute__((visibility("default"), weak)) int print_status();
 
+int f([[a::b(c), d]] int x) {}
+
 [[gnu::always_inline]] [[gnu::hot]] [[gnu::const]] [[nodiscard]]
 int g(void);
 
@@ -441,20 +443,6 @@ int i [[maybe_unused]];
 void f[[gnu::always_inline]]();
 
 [[nodiscard("reason")]] int foo;
-
-void f() {
-  [[a]] switch (b) {
-   [[c]] case 1: {}
-  }
-  [[a]] while (true) {}
-  [[a]] if (true) {}
-  [[a]] for (;;) {}
-  [[a]] return;
-  [[a]] a;
-  [[a]];
-  [[a]] label: {}
-  [[a]] goto label;
-}
 
 ---
 
@@ -483,6 +471,12 @@ void f() {
     (attribute_specifier
       (argument_list (call_expression (identifier) (argument_list (string_literal))) (identifier)))
     (primitive_type) (function_declarator (identifier) (parameter_list)))
+  (function_definition (primitive_type)
+    (function_declarator (identifier) (parameter_list (parameter_declaration
+      (attribute
+        (attribute_declarator (identifier) (identifier) (argument_list (identifier)))
+        (attribute_declarator (identifier)))
+      (primitive_type) (identifier)))) (compound_statement))
   (declaration
     (attribute (attribute_declarator (identifier) (identifier)))
     (attribute (attribute_declarator (identifier) (identifier)))
@@ -509,20 +503,4 @@ void f() {
       (parameter_list)))
   (declaration
     (attribute (attribute_declarator (identifier) (argument_list (string_literal))))
-    (primitive_type) (identifier))
-  (function_definition (primitive_type)
-    (function_declarator (identifier) (parameter_list))
-      (compound_statement
-      (attributed_statement (attribute (attribute_declarator (identifier)))
-        (switch_statement
-          (parenthesized_expression (identifier))
-          (compound_statement
-            (attributed_statement (attribute (attribute_declarator (identifier))) (case_statement (number_literal) (compound_statement))))))
-      (attributed_statement (attribute (attribute_declarator (identifier))) (while_statement (parenthesized_expression (true)) (compound_statement)))
-      (attributed_statement (attribute (attribute_declarator (identifier))) (if_statement (parenthesized_expression (true)) (compound_statement)))
-      (attributed_statement (attribute (attribute_declarator (identifier))) (for_statement (compound_statement)))
-      (attributed_statement (attribute (attribute_declarator (identifier))) (return_statement))
-      (attributed_statement (attribute (attribute_declarator (identifier))) (expression_statement (identifier)))
-      (attributed_statement (attribute (attribute_declarator (identifier))) (expression_statement))
-      (attributed_statement (attribute (attribute_declarator (identifier))) (labeled_statement (statement_identifier) (compound_statement)))
-      (attributed_statement (attribute (attribute_declarator (identifier))) (goto_statement (statement_identifier))))))
+    (primitive_type) (identifier)))

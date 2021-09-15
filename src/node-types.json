@@ -386,6 +386,16 @@
     "type": "abstract_pointer_declarator",
     "named": true,
     "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      },
       "declarator": {
         "multiple": false,
         "required": false,
@@ -2117,6 +2127,16 @@
     "type": "pointer_declarator",
     "named": true,
     "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      },
       "declarator": {
         "multiple": false,
         "required": true,
