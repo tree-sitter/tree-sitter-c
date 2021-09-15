@@ -308,6 +308,7 @@ module.exports = grammar({
     ),
 
     _field_declarator: $ => choice(
+      alias($.attributed_field_declarator, $.attributed_declarator),
       alias($.pointer_field_declarator, $.pointer_declarator),
       alias($.function_field_declarator, $.function_declarator),
       alias($.array_field_declarator, $.array_declarator),
@@ -316,6 +317,7 @@ module.exports = grammar({
     ),
 
     _type_declarator: $ => choice(
+      alias($.attributed_type_declarator, $.attributed_declarator),
       alias($.pointer_type_declarator, $.pointer_declarator),
       alias($.function_type_declarator, $.function_declarator),
       alias($.array_type_declarator, $.array_declarator),
@@ -354,6 +356,14 @@ module.exports = grammar({
 
     attributed_declarator: $ => prec.right(seq(
       $._declarator,
+      repeat1($.attribute_definition),
+    )),
+    attributed_field_declarator: $ => prec.right(seq(
+      $._field_declarator,
+      repeat1($.attribute_definition),
+    )),
+    attributed_type_declarator: $ => prec.right(seq(
+      $._type_declarator,
       repeat1($.attribute_definition),
     )),
 

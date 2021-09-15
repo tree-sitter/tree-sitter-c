@@ -444,6 +444,14 @@ void f[[gnu::always_inline]]();
 
 [[nodiscard("reason")]] int foo;
 
+[[fallthrough]];
+
+struct S {
+  int a [[deprecated]];
+};
+
+typedef int MyInt [[deprecated]];
+
 ---
 
 (translation_unit
@@ -506,4 +514,17 @@ void f[[gnu::always_inline]]();
       (parameter_list)))
   (declaration
     (attribute_definition (attribute (identifier) (argument_list (string_literal))))
-    (primitive_type) (identifier)))
+    (primitive_type) (identifier))
+  (attributed_statement
+    (attribute_definition (attribute (identifier)))
+    (expression_statement))
+  (struct_specifier
+    (type_identifier)
+    (field_declaration_list (field_declaration (primitive_type)
+      (attributed_declarator
+        (field_identifier)
+        (attribute_definition (attribute (identifier)))))))
+  (type_definition (primitive_type)
+    (attributed_declarator
+      (type_identifier)
+      (attribute_definition (attribute (identifier))))))

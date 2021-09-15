@@ -150,6 +150,10 @@
         "named": true
       },
       {
+        "type": "attributed_declarator",
+        "named": true
+      },
+      {
         "type": "field_identifier",
         "named": true
       },
@@ -231,6 +235,10 @@
     "subtypes": [
       {
         "type": "array_declarator",
+        "named": true
+      },
+      {
+        "type": "attributed_declarator",
         "named": true
       },
       {
@@ -631,6 +639,14 @@
       "types": [
         {
           "type": "_declarator",
+          "named": true
+        },
+        {
+          "type": "_field_declarator",
+          "named": true
+        },
+        {
+          "type": "_type_declarator",
           "named": true
         },
         {
