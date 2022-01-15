@@ -1001,7 +1001,7 @@ module.exports = grammar({
     macro_type_specifier: $ => prec.dynamic(-1, seq(
       field('name', $.identifier),
       '(',
-      field('type', $.type_descriptor),
+      field('type', choice($.type_descriptor, $.string_literal)),
       ')'
     )),
 

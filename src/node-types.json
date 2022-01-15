@@ -1894,6 +1894,10 @@
         "required": true,
         "types": [
           {
+            "type": "string_literal",
+            "named": true
+          },
+          {
             "type": "type_descriptor",
             "named": true
           }
