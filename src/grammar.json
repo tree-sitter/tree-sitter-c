@@ -2293,8 +2293,17 @@
             "value": "("
           },
           {
-            "type": "SYMBOL",
-            "name": "_declarator"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_declarator"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "string_literal"
+              }
+            ]
           },
           {
             "type": "STRING",
@@ -2314,8 +2323,17 @@
             "value": "("
           },
           {
-            "type": "SYMBOL",
-            "name": "_field_declarator"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_field_declarator"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "string_literal"
+              }
+            ]
           },
           {
             "type": "STRING",
@@ -6599,6 +6617,10 @@
     [
       "_declaration_modifiers",
       "attributed_non_case_statement"
+    ],
+    [
+      "_expression",
+      "parenthesized_declarator"
     ]
   ],
   "precedences": [],

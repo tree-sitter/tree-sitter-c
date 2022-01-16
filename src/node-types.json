@@ -2066,6 +2066,10 @@
         {
           "type": "_type_declarator",
           "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
         }
       ]
     }

@@ -48,6 +48,7 @@ module.exports = grammar({
     [$.sized_type_specifier],
     [$._declaration_modifiers, $.attributed_statement],
     [$._declaration_modifiers, $.attributed_non_case_statement],
+    [$._expression, $.parenthesized_declarator],
   ],
 
   word: $ => $.identifier,
@@ -331,12 +332,12 @@ module.exports = grammar({
 
     parenthesized_declarator: $ => prec.dynamic(PREC.PAREN_DECLARATOR, seq(
       '(',
-      $._declarator,
+      choice($._declarator, $.string_literal),
       ')'
     )),
     parenthesized_field_declarator: $ => prec.dynamic(PREC.PAREN_DECLARATOR, seq(
       '(',
-      $._field_declarator,
+      choice($._field_declarator, $.string_literal),
       ')'
     )),
     parenthesized_type_declarator: $ => prec.dynamic(PREC.PAREN_DECLARATOR, seq(
