@@ -26,7 +26,8 @@ target_include_directories(
 set_property(TARGET "${LIBRARY_NAME}" PROPERTY VERSION "${${PROJECT_NAME}_VERSION}")
 set_property(TARGET "${LIBRARY_NAME}" PROPERTY SOVERSION "${${PROJECT_NAME}_VERSION_MAJOR}")
 
-install(FILES ${Header_Files} TYPE "INCLUDE")
+install(FILES ${Header_Files}
+        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}")
 
 #====================#
 # Package to install #
