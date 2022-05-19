@@ -23,8 +23,8 @@ target_include_directories(
 #=========#
 
 # setup the version numbering
-set_property(TARGET "${LIBRARY_NAME}" PROPERTY VERSION "1.0.0")
-set_property(TARGET "${LIBRARY_NAME}" PROPERTY SOVERSION "1")
+set_property(TARGET "${LIBRARY_NAME}" PROPERTY VERSION "${${PROJECT_NAME}_VERSION}")
+set_property(TARGET "${LIBRARY_NAME}" PROPERTY SOVERSION "${${PROJECT_NAME}_VERSION_MAJOR}")
 
 install(FILES ${Header_Files} TYPE "INCLUDE")
 
