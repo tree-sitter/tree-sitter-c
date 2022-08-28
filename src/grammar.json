@@ -6425,7 +6425,7 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[a-zA-Z_]\\w*"
+      "value": "[a-zA-Z_$][\\w$]*"
     },
     "_type_identifier": {
       "type": "ALIAS",
