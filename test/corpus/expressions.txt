@@ -139,7 +139,7 @@ asm volatile (
     "mov %1, r2\n"
     :     "r"  (z)
     :     "=r" (x),
-      [y] "=r" (y)
+      [y] "=r" ((uintptr_t) y)
     : "r2");
 
 ---
@@ -157,18 +157,21 @@ asm volatile (
           (escape_sequence))
         (string_literal
           (escape_sequence)))
-      (gnu_asm_operand_list
-        (gnu_asm_operand
+      (gnu_asm_output_operand_list
+        (gnu_asm_output_operand
           (string_literal)
           (identifier)))
-      (gnu_asm_operand_list
-        (gnu_asm_operand
+      (gnu_asm_input_operand_list
+        (gnu_asm_input_operand
           (string_literal)
           (identifier))
-        (gnu_asm_operand
+        (gnu_asm_input_operand
           (identifier)
           (string_literal)
-          (identifier)))
+           (cast_expression
+             (type_descriptor
+               (primitive_type))
+             (identifier))))
       (gnu_asm_clobber_list
         (string_literal)))))
 

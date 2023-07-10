@@ -907,9 +907,9 @@ module.exports = grammar({
       "(",
       field('assembly_code', choice($.string_literal, $.concatenated_string)),
       optional(seq(
-        field('output_operands', $.gnu_asm_operand_list),
+        field('output_operands', $.gnu_asm_output_operand_list),
         optional(seq(
-          field('input_operands', $.gnu_asm_operand_list),
+          field('input_operands', $.gnu_asm_input_operand_list),
           optional(seq(
             field('clobbers', $.gnu_asm_clobber_list),
             optional(field('goto_labels', $.gnu_asm_goto_list))
@@ -925,12 +925,12 @@ module.exports = grammar({
       "goto",
     ),
 
-    gnu_asm_operand_list: $ => seq(
+    gnu_asm_output_operand_list: $ => seq(
       ":",
-      commaSep(field("operand", $.gnu_asm_operand)),
+      commaSep(field("operand", $.gnu_asm_output_operand)),
     ),
 
-    gnu_asm_operand: $ => seq(
+    gnu_asm_output_operand: $ => seq(
       optional(seq(
         "[",
         field('symbol', $.identifier),
@@ -939,6 +939,23 @@ module.exports = grammar({
       field('constraint', $.string_literal),
       "(",
       field('value', $.identifier),
+      ")",
+    ),
+
+    gnu_asm_input_operand_list: $ => seq(
+      ":",
+      commaSep(field("operand", $.gnu_asm_input_operand)),
+    ),
+
+    gnu_asm_input_operand: $ => seq(
+      optional(seq(
+        "[",
+        field('symbol', $.identifier),
+        "]",
+      )),
+      field('constraint', $.string_literal),
+      "(",
+      field('value', $._expression),
       ")",
     ),
 

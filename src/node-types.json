@@ -1776,7 +1776,7 @@
         "required": false,
         "types": [
           {
-            "type": "gnu_asm_operand_list",
+            "type": "gnu_asm_input_operand_list",
             "named": true
           }
         ]
@@ -1786,7 +1786,7 @@
         "required": false,
         "types": [
           {
-            "type": "gnu_asm_operand_list",
+            "type": "gnu_asm_output_operand_list",
             "named": true
           }
         ]
@@ -1820,7 +1820,59 @@
     }
   },
   {
-    "type": "gnu_asm_operand",
+    "type": "gnu_asm_input_operand",
+    "named": true,
+    "fields": {
+      "constraint": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string_literal",
+            "named": true
+          }
+        ]
+      },
+      "symbol": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "gnu_asm_input_operand_list",
+    "named": true,
+    "fields": {
+      "operand": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "gnu_asm_input_operand",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "gnu_asm_output_operand",
     "named": true,
     "fields": {
       "constraint": {
@@ -1856,7 +1908,7 @@
     }
   },
   {
-    "type": "gnu_asm_operand_list",
+    "type": "gnu_asm_output_operand_list",
     "named": true,
     "fields": {
       "operand": {
@@ -1864,7 +1916,7 @@
         "required": false,
         "types": [
           {
-            "type": "gnu_asm_operand",
+            "type": "gnu_asm_output_operand",
             "named": true
           }
         ]

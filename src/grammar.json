@@ -5771,7 +5771,7 @@
                     "name": "output_operands",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "gnu_asm_operand_list"
+                      "name": "gnu_asm_output_operand_list"
                     }
                   },
                   {
@@ -5785,7 +5785,7 @@
                             "name": "input_operands",
                             "content": {
                               "type": "SYMBOL",
-                              "name": "gnu_asm_operand_list"
+                              "name": "gnu_asm_input_operand_list"
                             }
                           },
                           {
@@ -5863,7 +5863,7 @@
         }
       ]
     },
-    "gnu_asm_operand_list": {
+    "gnu_asm_output_operand_list": {
       "type": "SEQ",
       "members": [
         {
@@ -5881,7 +5881,7 @@
                   "name": "operand",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "gnu_asm_operand"
+                    "name": "gnu_asm_output_operand"
                   }
                 },
                 {
@@ -5898,7 +5898,7 @@
                         "name": "operand",
                         "content": {
                           "type": "SYMBOL",
-                          "name": "gnu_asm_operand"
+                          "name": "gnu_asm_output_operand"
                         }
                       }
                     ]
@@ -5913,7 +5913,7 @@
         }
       ]
     },
-    "gnu_asm_operand": {
+    "gnu_asm_output_operand": {
       "type": "SEQ",
       "members": [
         {
@@ -5963,6 +5963,114 @@
           "content": {
             "type": "SYMBOL",
             "name": "identifier"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "gnu_asm_input_operand_list": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "operand",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "gnu_asm_input_operand"
+                  }
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "FIELD",
+                        "name": "operand",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "gnu_asm_input_operand"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "gnu_asm_input_operand": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "["
+                },
+                {
+                  "type": "FIELD",
+                  "name": "symbol",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "]"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "FIELD",
+          "name": "constraint",
+          "content": {
+            "type": "SYMBOL",
+            "name": "string_literal"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
           }
         },
         {
