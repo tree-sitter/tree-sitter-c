@@ -902,9 +902,9 @@ module.exports = grammar({
     )),
 
     gnu_asm_expression: $ => prec(PREC.CALL, seq(
-      choice("asm", "__asm__"),
+      choice('asm', '__asm__'),
       repeat($.gnu_asm_qualifier),
-      "(",
+      '(',
       field('assembly_code', choice($.string_literal, $.concatenated_string)),
       optional(seq(
         field('output_operands', $.gnu_asm_output_operand_list),
@@ -912,60 +912,60 @@ module.exports = grammar({
           field('input_operands', $.gnu_asm_input_operand_list),
           optional(seq(
             field('clobbers', $.gnu_asm_clobber_list),
-            optional(field('goto_labels', $.gnu_asm_goto_list))
+            optional(field('goto_labels', $.gnu_asm_goto_list)),
           )),
         )),
       )),
-      ")",
+      ')',
     )),
 
     gnu_asm_qualifier: _ => choice(
-      "volatile",
-      "inline",
-      "goto",
+      'volatile',
+      'inline',
+      'goto',
     ),
 
     gnu_asm_output_operand_list: $ => seq(
-      ":",
-      commaSep(field("operand", $.gnu_asm_output_operand)),
+      ':',
+      commaSep(field('operand', $.gnu_asm_output_operand)),
     ),
 
     gnu_asm_output_operand: $ => seq(
       optional(seq(
-        "[",
+        '[',
         field('symbol', $.identifier),
-        "]",
+        ']',
       )),
       field('constraint', $.string_literal),
-      "(",
+      '(',
       field('value', $.identifier),
-      ")",
+      ')',
     ),
 
     gnu_asm_input_operand_list: $ => seq(
-      ":",
-      commaSep(field("operand", $.gnu_asm_input_operand)),
+      ':',
+      commaSep(field('operand', $.gnu_asm_input_operand)),
     ),
 
     gnu_asm_input_operand: $ => seq(
       optional(seq(
-        "[",
+        '[',
         field('symbol', $.identifier),
-        "]",
+        ']',
       )),
       field('constraint', $.string_literal),
-      "(",
+      '(',
       field('value', $._expression),
-      ")",
+      ')',
     ),
 
     gnu_asm_clobber_list: $ => seq(
-      ":",
+      ':',
       commaSep(field('register', $.string_literal)),
     ),
 
     gnu_asm_goto_list: $ => seq(
-      ":",
+      ':',
       commaSep(field('label', $.identifier)),
     ),
 
