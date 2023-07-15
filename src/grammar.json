@@ -6964,15 +6964,20 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "IMMEDIATE_TOKEN",
+                "type": "ALIAS",
                 "content": {
-                  "type": "PREC",
-                  "value": 1,
+                  "type": "IMMEDIATE_TOKEN",
                   "content": {
-                    "type": "PATTERN",
-                    "value": "[^\\\\\"\\n]+"
+                    "type": "PREC",
+                    "value": 1,
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[^\\\\\"\\n]+"
+                    }
                   }
-                }
+                },
+                "named": true,
+                "value": "string_content"
               },
               {
                 "type": "SYMBOL",
