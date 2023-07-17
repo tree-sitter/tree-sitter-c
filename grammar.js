@@ -1048,7 +1048,7 @@ module.exports = grammar({
       choice('L\'', 'u\'', 'U\'', 'u8\'', '\''),
       choice(
         $.escape_sequence,
-        token.immediate(/[^\n']/),
+        alias(token.immediate(/[^\n']/), $.character),
       ),
       '\'',
     ),

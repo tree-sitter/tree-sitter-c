@@ -431,7 +431,7 @@ static const char * const ts_symbol_names[] = {
   [anon_sym_U_SQUOTE] = "U'",
   [anon_sym_u8_SQUOTE] = "u8'",
   [anon_sym_SQUOTE] = "'",
-  [aux_sym_char_literal_token1] = "char_literal_token1",
+  [aux_sym_char_literal_token1] = "character",
   [anon_sym_L_DQUOTE] = "L\"",
   [anon_sym_u_DQUOTE] = "u\"",
   [anon_sym_U_DQUOTE] = "U\"",
@@ -1383,8 +1383,8 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .named = false,
   },
   [aux_sym_char_literal_token1] = {
-    .visible = false,
-    .named = false,
+    .visible = true,
+    .named = true,
   },
   [anon_sym_L_DQUOTE] = {
     .visible = true,
