@@ -1299,3 +1299,34 @@ void fn (int *__restrict__ rptr) {
           (pointer_expression
             (identifier))
           (number_literal))))))
+
+================================================================================
+Ternary
+================================================================================
+
+void f() {
+  0 ? 1 : 2;
+  a = 0 ? 1 : 2;
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list))
+    (compound_statement
+      (expression_statement
+        (conditional_expression
+          (number_literal)
+          (number_literal)
+          (number_literal)))
+      (expression_statement
+        (assignment_expression
+          (identifier)
+          (conditional_expression
+            (number_literal)
+            (number_literal)
+            (number_literal)))))))
