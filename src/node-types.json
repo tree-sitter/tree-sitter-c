@@ -1438,6 +1438,26 @@
         {
           "type": "enumerator",
           "named": true
+        },
+        {
+          "type": "preproc_call",
+          "named": true
+        },
+        {
+          "type": "preproc_def",
+          "named": true
+        },
+        {
+          "type": "preproc_function_def",
+          "named": true
+        },
+        {
+          "type": "preproc_if",
+          "named": true
+        },
+        {
+          "type": "preproc_ifdef",
+          "named": true
         }
       ]
     }
@@ -2678,6 +2698,10 @@
           "named": true
         },
         {
+          "type": "enumerator",
+          "named": true
+        },
+        {
           "type": "field_declaration",
           "named": true
         },
@@ -2822,6 +2846,10 @@
         },
         {
           "type": "declaration",
+          "named": true
+        },
+        {
+          "type": "enumerator",
           "named": true
         },
         {
@@ -2977,6 +3005,10 @@
           "named": true
         },
         {
+          "type": "enumerator",
+          "named": true
+        },
+        {
           "type": "field_declaration",
           "named": true
         },
@@ -3066,6 +3098,10 @@
         },
         {
           "type": "declaration",
+          "named": true
+        },
+        {
+          "type": "enumerator",
           "named": true
         },
         {

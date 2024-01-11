@@ -357,6 +357,32 @@ struct S {
             (field_identifier)))))))
 
 ================================================================================
+Preprocessor conditionals in enum bodies
+================================================================================
+
+enum E {
+#ifdef _WIN32
+  WIN32,
+#else
+  OTHER,
+#endif
+};
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (enum_specifier
+    (type_identifier)
+    (enumerator_list
+      (preproc_ifdef
+        (identifier)
+        (enumerator
+          (identifier))
+        (preproc_else
+          (enumerator
+            (identifier)))))))
+
+================================================================================
 Unknown preprocessor directives
 ================================================================================
 

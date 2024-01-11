@@ -66,6 +66,11 @@ module.exports = grammar({
     [$.enum_specifier],
     [$._type_specifier, $._old_style_parameter_list],
     [$.parameter_list, $._old_style_parameter_list],
+    [$._enumerator_list_item, $._enumerator_list_item_end],
+    [$.preproc_ifdef_in_enumerator_list, $.preproc_ifdef_in_enumerator_list_end],
+    [$.preproc_else_in_enumerator_list, $.preproc_else_in_enumerator_list_end],
+    [$.preproc_if_in_enumerator_list, $.preproc_if_in_enumerator_list_end],
+    [$.preproc_elif_in_enumerator_list, $.preproc_elif_in_enumerator_list_end],
   ],
 
   word: $ => $.identifier,
@@ -148,6 +153,8 @@ module.exports = grammar({
 
     ...preprocIf('', $ => $._block_item),
     ...preprocIf('_in_field_declaration_list', $ => $._field_declaration_list_item),
+    ...preprocIf('_in_enumerator_list', $ => $._enumerator_list_item),
+    ...preprocIf('_in_enumerator_list_end', $ => $._enumerator_list_item_end),
 
     preproc_arg: _ => token(prec(-1, /\S([^/\n]|\/[^*]|\\\r?\n)*/)),
     preproc_directive: _ => /#[ \t]*[a-zA-Z0-9]\w*/,
@@ -591,8 +598,8 @@ module.exports = grammar({
 
     enumerator_list: $ => seq(
       '{',
-      commaSep($.enumerator),
-      optional(','),
+      repeat($._enumerator_list_item),
+      optional($._enumerator_list_item_end),
       '}',
     ),
 
@@ -654,6 +661,24 @@ module.exports = grammar({
     enumerator: $ => seq(
       field('name', $.identifier),
       optional(seq('=', field('value', $._expression))),
+    ),
+
+    _enumerator_list_item: $ => choice(
+      seq($.enumerator, ','),
+      $.preproc_def,
+      $.preproc_function_def,
+      $.preproc_call,
+      alias($.preproc_if_in_enumerator_list, $.preproc_if),
+      alias($.preproc_ifdef_in_enumerator_list, $.preproc_ifdef),
+    ),
+
+    _enumerator_list_item_end: $ => choice(
+      $.enumerator,
+      $.preproc_def,
+      $.preproc_function_def,
+      $.preproc_call,
+      alias($.preproc_if_in_enumerator_list_end, $.preproc_if),
+      alias($.preproc_ifdef_in_enumerator_list_end, $.preproc_ifdef),
     ),
 
     variadic_parameter: _ => seq(
@@ -1178,11 +1203,11 @@ module.exports = grammar({
       '\'',
     ),
 
-    concatenated_string: $ => seq(
+    concatenated_string: $ => prec.right(seq(
       choice($.identifier, $.string_literal),
       $.string_literal,
       repeat(choice($.string_literal, $.identifier)), // Identifier is added to parse macros that are strings, like PRIu64
-    ),
+    )),
 
     string_literal: $ => seq(
       choice('L"', 'u"', 'U"', 'u8"', '"'),
