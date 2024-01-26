@@ -2750,6 +2750,10 @@
           "named": true
         },
         {
+          "type": "field_declaration",
+          "named": true
+        },
+        {
           "type": "function_definition",
           "named": true
         },

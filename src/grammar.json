@@ -844,8 +844,13 @@
                     ]
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "preproc_elifdef"
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "preproc_elifdef_in_field_declaration_list"
+                    },
+                    "named": true,
+                    "value": "preproc_elifdef"
                   }
                 ]
               },
