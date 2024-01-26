@@ -1340,6 +1340,13 @@ function preprocIf(suffix, content, precedence = 0) {
     );
   }
 
+  /**
+    *
+    * @param {GrammarSymbols<string>} $
+    *
+    * @return {AliasRule | SymbolRule<string>}
+    *
+    */
   function elifBlock($) {
     return suffix ? alias($['preproc_elifdef' + suffix], $.preproc_elifdef) : $.preproc_elifdef;
   }
