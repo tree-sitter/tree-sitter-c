@@ -240,6 +240,14 @@
         "named": true
       },
       {
+        "type": "seh_leave_statement",
+        "named": true
+      },
+      {
+        "type": "seh_try_statement",
+        "named": true
+      },
+      {
         "type": "switch_statement",
         "named": true
       },
@@ -945,6 +953,14 @@
           "named": true
         },
         {
+          "type": "seh_leave_statement",
+          "named": true
+        },
+        {
+          "type": "seh_try_statement",
+          "named": true
+        },
+        {
           "type": "switch_statement",
           "named": true
         },
@@ -990,7 +1006,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -1421,6 +1437,18 @@
       "types": [
         {
           "type": "enumerator",
+          "named": true
+        },
+        {
+          "type": "preproc_call",
+          "named": true
+        },
+        {
+          "type": "preproc_if",
+          "named": true
+        },
+        {
+          "type": "preproc_ifdef",
           "named": true
         }
       ]
@@ -2119,7 +2147,15 @@
             "named": true
           },
           {
+            "type": "field_identifier",
+            "named": true
+          },
+          {
             "type": "subscript_designator",
+            "named": true
+          },
+          {
+            "type": "subscript_range_designator",
             "named": true
           }
         ]
@@ -2662,6 +2698,10 @@
           "named": true
         },
         {
+          "type": "enumerator",
+          "named": true
+        },
+        {
           "type": "field_declaration",
           "named": true
         },
@@ -2750,6 +2790,10 @@
           "named": true
         },
         {
+          "type": "enumerator",
+          "named": true
+        },
+        {
           "type": "field_declaration",
           "named": true
         },
@@ -2810,6 +2854,10 @@
         },
         {
           "type": "declaration",
+          "named": true
+        },
+        {
+          "type": "enumerator",
           "named": true
         },
         {
@@ -2965,6 +3013,10 @@
           "named": true
         },
         {
+          "type": "enumerator",
+          "named": true
+        },
+        {
           "type": "field_declaration",
           "named": true
         },
@@ -3054,6 +3106,10 @@
         },
         {
           "type": "declaration",
+          "named": true
+        },
+        {
+          "type": "enumerator",
           "named": true
         },
         {
@@ -3156,6 +3212,83 @@
         },
         {
           "type": "comma_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "seh_except_clause",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "compound_statement",
+            "named": true
+          }
+        ]
+      },
+      "filter": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "seh_finally_clause",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "compound_statement",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "seh_leave_statement",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "seh_try_statement",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "compound_statement",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "seh_except_clause",
+          "named": true
+        },
+        {
+          "type": "seh_finally_clause",
           "named": true
         }
       ]
@@ -3301,6 +3434,32 @@
         ]
       },
       "index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "subscript_range_designator",
+    "named": true,
+    "fields": {
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      },
+      "start": {
         "multiple": false,
         "required": true,
         "types": [
@@ -3966,11 +4125,19 @@
     "named": false
   },
   {
+    "type": "__except",
+    "named": false
+  },
+  {
     "type": "__extension__",
     "named": false
   },
   {
     "type": "__fastcall",
+    "named": false
+  },
+  {
+    "type": "__finally",
     "named": false
   },
   {
@@ -3983,6 +4150,10 @@
   },
   {
     "type": "__inline__",
+    "named": false
+  },
+  {
+    "type": "__leave",
     "named": false
   },
   {
@@ -3999,6 +4170,10 @@
   },
   {
     "type": "__thread",
+    "named": false
+  },
+  {
+    "type": "__try",
     "named": false
   },
   {
