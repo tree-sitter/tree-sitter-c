@@ -5876,6 +5876,17 @@
             }
           },
           {
+            "type": "REPEAT",
+            "content": {
+              "type": "FIELD",
+              "name": "alternative",
+              "content": {
+                "type": "SYMBOL",
+                "name": "else_if_clause"
+              }
+            }
+          },
+          {
             "type": "CHOICE",
             "members": [
               {
@@ -5906,6 +5917,39 @@
           "name": "_statement"
         }
       ]
+    },
+    "else_if_clause": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "else"
+          },
+          {
+            "type": "STRING",
+            "value": "if"
+          },
+          {
+            "type": "FIELD",
+            "name": "condition",
+            "content": {
+              "type": "SYMBOL",
+              "name": "parenthesized_expression"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "consequence",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_statement"
+            }
+          }
+        ]
+      }
     },
     "switch_statement": {
       "type": "SEQ",

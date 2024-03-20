@@ -824,10 +824,18 @@ module.exports = grammar({
       'if',
       field('condition', $.parenthesized_expression),
       field('consequence', $._statement),
+      repeat(field('alternative', $.else_if_clause)),
       optional(field('alternative', $.else_clause)),
     )),
 
     else_clause: $ => seq('else', $._statement),
+
+    else_if_clause: $ => prec.right(1, seq(
+      'else',
+      'if',
+      field('condition', $.parenthesized_expression),
+      field('consequence', $._statement),
+    )),
 
     switch_statement: $ => seq(
       'switch',

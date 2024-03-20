@@ -8,6 +8,12 @@ int main() {
 
   if (!a) {
     2;
+  } else if (a) {
+    4;
+  } else if (a) {
+    6;
+  } else if (a) {
+    5;
   } else {
     3;
   }
@@ -34,6 +40,24 @@ int main() {
         (compound_statement
           (expression_statement
             (number_literal)))
+        (else_if_clause
+          (parenthesized_expression
+            (identifier))
+          (compound_statement
+            (expression_statement
+              (number_literal))))
+        (else_if_clause
+          (parenthesized_expression
+            (identifier))
+          (compound_statement
+            (expression_statement
+              (number_literal))))
+        (else_if_clause
+          (parenthesized_expression
+            (identifier))
+          (compound_statement
+            (expression_statement
+              (number_literal))))
         (else_clause
           (compound_statement
             (expression_statement
