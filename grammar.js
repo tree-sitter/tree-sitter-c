@@ -152,6 +152,7 @@ module.exports = grammar({
     ...preprocIf('_in_field_declaration_list', $ => $._field_declaration_list_item),
     ...preprocIf('_in_enumerator_list', $ => seq($.enumerator, ',')),
     ...preprocIf('_in_enumerator_list_no_comma', $ => $.enumerator, -1),
+    ...preprocIf('_in_if_statement', $ => $._else_clause_or_preproc, -1),
 
     preproc_arg: _ => token(prec(-1, /\S([^/\n]|\/[^*]|\\\r?\n)*/)),
     preproc_directive: _ => /#[ \t]*[a-zA-Z0-9]\w*/,
@@ -824,10 +825,17 @@ module.exports = grammar({
       'if',
       field('condition', $.parenthesized_expression),
       field('consequence', $._statement),
-      optional(field('alternative', $.else_clause)),
+      optional(field('alternative', $._else_clause_or_preproc)),
     )),
 
+    _else_clause_or_preproc: $ => choice($.else_clause, $._else_clause_preproc),
+
     else_clause: $ => seq('else', $._statement),
+
+    _else_clause_preproc: $ => choice(
+      $.preproc_if_in_if_statement,
+      $.preproc_ifdef_in_if_statement,
+    ),
 
     switch_statement: $ => seq(
       'switch',

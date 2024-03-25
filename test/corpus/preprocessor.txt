@@ -399,3 +399,86 @@ uint32_t a;
     (declaration
       (primitive_type)
       (identifier))))
+
+
+================================================================================
+Preprocessor between if and else
+================================================================================
+
+if (condition)
+{
+   result = fun();
+}
+#ifdef SOMETHING
+else
+{
+   result = fun();
+}
+#endif
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+ (if_statement
+  condition: (parenthesized_expression
+     (identifier))
+  consequence: (compound_statement
+     (expression_statement
+      (assignment_expression
+       left: (identifier)
+       right: (call_expression
+          function: (identifier)
+          arguments: (argument_list)))))
+  alternative: (preproc_ifdef_in_if_statement
+     name: (identifier)
+     (else_clause
+      (compound_statement
+       (expression_statement
+        (assignment_expression
+         left: (identifier)
+         right: (call_expression
+            function: (identifier)
+            arguments: (argument_list)))))))))
+
+================================================================================
+Two preprocessor between if and else
+================================================================================
+
+if (condition)
+{
+   result = fun();
+}
+#if SOMETHING
+#ifndef SOMETHING_ELSE
+else
+{
+   result = fun();
+}
+#endif
+#endif
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+ (if_statement
+  condition: (parenthesized_expression
+     (identifier))
+  consequence: (compound_statement
+     (expression_statement
+      (assignment_expression
+       left: (identifier)
+       right: (call_expression
+          function: (identifier)
+          arguments: (argument_list)))))
+  alternative: (preproc_if_in_if_statement
+     condition: (identifier)
+     (preproc_ifdef_in_if_statement
+      name: (identifier)
+      (else_clause
+       (compound_statement
+        (expression_statement
+         (assignment_expression
+          left: (identifier)
+          right: (call_expression
+             function: (identifier)
+             arguments: (argument_list))))))))))
