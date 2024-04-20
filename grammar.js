@@ -1332,14 +1332,17 @@ module.exports = grammar({
     )),
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
-    comment: _ => token(choice(
-      seq('//', /(\\+(.|\r?\n)|[^\\\n])*/),
+    comment: $ => choice(
       seq(
-        '/*',
-        /[^*]*\*+([^/*][^*]*\*+)*/,
-        '/',
+        field('start', '//'),
+        field('content', alias(/(\\+(.|\r?\n)|[^\\\n])*/, $.comment_content))
       ),
-    )),
+      seq(
+        field('start', '/*'),
+        field('content', alias(/[^*]*\*+([^/*][^*]*\*+)*/, $.comment_content)),
+        field('end', '/')
+      ),
+    ),
   },
 
   supertypes: $ => [

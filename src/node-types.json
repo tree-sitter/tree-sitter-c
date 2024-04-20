@@ -1059,6 +1059,46 @@
     }
   },
   {
+    "type": "comment",
+    "named": true,
+    "fields": {
+      "content": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "comment_content",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "/",
+            "named": false
+          }
+        ]
+      },
+      "start": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "/*",
+            "named": false
+          },
+          {
+            "type": "//",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "compound_literal_expression",
     "named": true,
     "fields": {
@@ -4037,6 +4077,14 @@
     "named": false
   },
   {
+    "type": "/*",
+    "named": false
+  },
+  {
+    "type": "//",
+    "named": false
+  },
+  {
     "type": "/=",
     "named": false
   },
@@ -4281,7 +4329,7 @@
     "named": true
   },
   {
-    "type": "comment",
+    "type": "comment_content",
     "named": true
   },
   {
