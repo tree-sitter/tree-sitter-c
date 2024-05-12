@@ -4665,6 +4665,49 @@
         {
           "type": "STRING",
           "value": "noreturn"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "alignas_qualifier"
+        }
+      ]
+    },
+    "alignas_qualifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "alignas"
+            },
+            {
+              "type": "STRING",
+              "value": "_Alignas"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "type_descriptor"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },

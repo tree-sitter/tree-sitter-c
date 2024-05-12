@@ -720,6 +720,8 @@ restrict int y = 6;
 volatile int z = 7;
 constexpr int a = 8;
 __thread int c = 9;
+alignas(16) int i;
+_Alignas(int) int j;
 noreturn void b() {}
  __extension__ extern int ffsll (long long int __ll)
      __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
@@ -759,6 +761,19 @@ noreturn void b() {}
     (init_declarator
       (identifier)
       (number_literal)))
+  (declaration
+    (type_qualifier
+      (alignas_qualifier
+        (number_literal)))
+    (primitive_type)
+    (identifier))
+  (declaration
+    (type_qualifier
+      (alignas_qualifier
+        (type_descriptor
+          (primitive_type))))
+    (primitive_type)
+    (identifier))
   (function_definition
     (type_qualifier)
     (primitive_type)
