@@ -1,5 +1,4 @@
-* text eol=lf
-test/corpus/crlf.txt text eol=crlf
+* text=auto eol=lf
 
 examples/* linguist-vendored
 

@@ -1185,3 +1185,23 @@ int main() {
                 (string_content))
               (string_literal
                 (string_content)))))))))
+
+================================================================================
+Static in Array Declarations
+================================================================================
+
+void foo (int a[static 10]);
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (primitive_type)
+          (array_declarator
+            (identifier)
+            (number_literal)))))))
