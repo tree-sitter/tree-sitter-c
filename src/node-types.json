@@ -441,6 +441,25 @@
     }
   },
   {
+    "type": "alignas_qualifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "type_descriptor",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "alignof_expression",
     "named": true,
     "fields": {
@@ -3751,7 +3770,17 @@
   {
     "type": "type_qualifier",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "alignas_qualifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "unary_expression",
@@ -4141,6 +4170,10 @@
     "named": false
   },
   {
+    "type": "_Alignas",
+    "named": false
+  },
+  {
     "type": "_Alignof",
     "named": false
   },
@@ -4254,6 +4287,10 @@
   },
   {
     "type": "_unaligned",
+    "named": false
+  },
+  {
+    "type": "alignas",
     "named": false
   },
   {
