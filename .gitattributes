@@ -1,5 +1,7 @@
 * text=auto eol=lf
 
+test/corpus/crlf.txt eol=crlf
+
 examples/* linguist-vendored
 
 src/*.json linguist-generated
