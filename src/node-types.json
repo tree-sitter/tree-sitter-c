@@ -4186,6 +4186,10 @@
     "named": false
   },
   {
+    "type": "_Nonnull",
+    "named": false
+  },
+  {
     "type": "_Noreturn",
     "named": false
   },

@@ -1426,3 +1426,26 @@ foo(PRI "hello");
           (identifier)
           (string_literal
             (string_content)))))))
+
+================================================================================
+Nonnull Type Qualifier
+================================================================================
+
+void foo() {
+  int *_Nonnull n;
+}
+
+---
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list))
+    (compound_statement
+      (declaration
+        (primitive_type)
+        (pointer_declarator
+          (type_qualifier)
+          (identifier))))))

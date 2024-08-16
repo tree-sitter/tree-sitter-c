@@ -4667,6 +4667,10 @@
           "value": "noreturn"
         },
         {
+          "type": "STRING",
+          "value": "_Nonnull"
+        },
+        {
           "type": "SYMBOL",
           "name": "alignas_qualifier"
         }
