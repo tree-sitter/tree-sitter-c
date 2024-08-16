@@ -7949,6 +7949,10 @@
               {
                 "type": "STRING",
                 "value": "__asm__"
+              },
+              {
+                "type": "STRING",
+                "value": "__asm"
               }
             ]
           },

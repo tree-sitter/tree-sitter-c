@@ -4202,6 +4202,10 @@
     "named": false
   },
   {
+    "type": "__asm",
+    "named": false
+  },
+  {
     "type": "__asm__",
     "named": false
   },

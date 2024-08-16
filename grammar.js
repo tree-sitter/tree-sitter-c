@@ -1119,7 +1119,7 @@ module.exports = grammar({
     )),
 
     gnu_asm_expression: $ => prec(PREC.CALL, seq(
-      choice('asm', '__asm__'),
+      choice('asm', '__asm__', '__asm'),
       repeat($.gnu_asm_qualifier),
       '(',
       field('assembly_code', $._string),
