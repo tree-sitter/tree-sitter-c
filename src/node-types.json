@@ -4321,6 +4321,10 @@
     "named": false
   },
   {
+    "type": "__volatile__",
+    "named": false
+  },
+  {
     "type": "_alignof",
     "named": false
   },
