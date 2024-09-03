@@ -5782,6 +5782,13 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "attribute_specifier"
+          }
         }
       ]
     },
@@ -8089,6 +8096,10 @@
         {
           "type": "STRING",
           "value": "volatile"
+        },
+        {
+          "type": "STRING",
+          "value": "__volatile__"
         },
         {
           "type": "STRING",
