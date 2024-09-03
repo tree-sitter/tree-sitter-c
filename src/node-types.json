@@ -156,6 +156,10 @@
         "named": true
       },
       {
+        "type": "extension_expression",
+        "named": true
+      },
+      {
         "type": "false",
         "named": true
       },
@@ -1529,6 +1533,21 @@
     }
   },
   {
+    "type": "extension_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "field_declaration",
     "named": true,
     "fields": {
@@ -2263,6 +2282,10 @@
       "required": true,
       "types": [
         {
+          "type": "declaration",
+          "named": true
+        },
+        {
           "type": "statement",
           "named": true
         }
@@ -2492,6 +2515,10 @@
       "required": false,
       "types": [
         {
+          "type": "compound_statement",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -2543,6 +2570,10 @@
       "types": [
         {
           "type": "comma_expression",
+          "named": true
+        },
+        {
+          "type": "compound_statement",
           "named": true
         },
         {
