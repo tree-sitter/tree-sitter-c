@@ -751,7 +751,10 @@ module.exports = grammar({
 
     parameter_list: $ => seq(
       '(',
-      commaSep(choice($.parameter_declaration, $.variadic_parameter)),
+      choice(
+        commaSep(choice($.parameter_declaration, $.variadic_parameter)),
+        $.compound_statement,
+      ),
       ')',
     ),
     _old_style_parameter_list: $ => seq(
@@ -1206,7 +1209,7 @@ module.exports = grammar({
 
     parenthesized_expression: $ => seq(
       '(',
-      choice($.expression, $.comma_expression),
+      choice($.expression, $.comma_expression, $.compound_statement),
       ')',
     ),
 
