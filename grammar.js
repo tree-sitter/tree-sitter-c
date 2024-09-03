@@ -818,7 +818,7 @@ module.exports = grammar({
     labeled_statement: $ => seq(
       field('label', $._statement_identifier),
       ':',
-      $.statement,
+      choice($.declaration, $.statement),
     ),
 
     // This is missing binary expressions, others were kept so that macro code can be parsed better and code examples
