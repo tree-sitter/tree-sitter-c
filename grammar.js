@@ -52,6 +52,7 @@ module.exports = grammar({
     [$._block_item, $.statement],
     [$._top_level_item, $._top_level_statement],
     [$.type_specifier, $._top_level_expression_statement],
+    [$.type_qualifier, $.extension_expression],
   ],
 
   extras: $ => [
@@ -969,6 +970,7 @@ module.exports = grammar({
       $.char_literal,
       $.parenthesized_expression,
       $.gnu_asm_expression,
+      $.extension_expression,
     ),
 
     _string: $ => prec.left(choice(
@@ -1189,8 +1191,10 @@ module.exports = grammar({
       commaSep(field('label', $.identifier)),
     ),
 
+    extension_expression: $ => seq('__extension__', $.expression),
+
     // The compound_statement is added to parse macros taking statements as arguments, e.g. MYFORLOOP(1, 10, i, { foo(i); bar(i); })
-    argument_list: $ => seq('(', commaSep(choice(seq(optional('__extension__'), $.expression), $.compound_statement)), ')'),
+    argument_list: $ => seq('(', commaSep(choice($.expression, $.compound_statement)), ')'),
 
     field_expression: $ => seq(
       prec(PREC.FIELD, seq(
