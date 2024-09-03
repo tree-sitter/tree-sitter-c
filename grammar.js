@@ -770,6 +770,7 @@ module.exports = grammar({
         $._declarator,
         $._abstract_declarator,
       ))),
+      repeat($.attribute_specifier),
     ),
 
     // Statements
