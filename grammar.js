@@ -828,7 +828,7 @@ module.exports = grammar({
 
     // This is missing binary expressions, others were kept so that macro code can be parsed better and code examples
     _top_level_expression_statement: $ => seq(
-      $._expression_not_binary,
+      optional($._expression_not_binary),
       ';',
     ),
 

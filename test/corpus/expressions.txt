@@ -1450,3 +1450,14 @@ void foo() {
         (pointer_declarator
           (type_qualifier)
           (identifier))))))
+
+================================================================================
+Top Level Empty Expression Statement
+================================================================================
+
+;
+
+---
+
+(translation_unit
+  (expression_statement))
