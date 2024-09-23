@@ -302,7 +302,7 @@ module.exports = grammar({
     ),
 
     attribute_specifier: $ => seq(
-      '__attribute__',
+      choice('__attribute__', '__attribute'),
       '(',
       $.argument_list,
       ')',
