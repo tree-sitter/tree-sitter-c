@@ -1167,7 +1167,14 @@ int main() {
     :
     : "eax", "ra" "x"
   );
+
+  asm("addq %2,%0; adcq %3,%1"
+      : "+m"(rp[0]), "+d"(high)
+      : "r"(c1), "g"(0)
+      : "cc"
+  );
 }
+
 
 --------------------------------------------------------------------------------
 
@@ -1199,7 +1206,34 @@ int main() {
               (string_literal
                 (string_content))
               (string_literal
-                (string_content)))))))))
+                (string_content))))))
+      (expression_statement
+        (gnu_asm_expression
+          (string_literal
+            (string_content))
+          (gnu_asm_output_operand_list
+            (gnu_asm_output_operand
+              (string_literal
+                (string_content))
+              (subscript_expression
+                (identifier)
+                (number_literal)))
+            (gnu_asm_output_operand
+              (string_literal
+                (string_content))
+              (identifier)))
+          (gnu_asm_input_operand_list
+            (gnu_asm_input_operand
+              (string_literal
+                (string_content))
+              (identifier))
+            (gnu_asm_input_operand
+              (string_literal
+                (string_content))
+              (number_literal)))
+          (gnu_asm_clobber_list
+            (string_literal
+              (string_content))))))))
 
 ================================================================================
 Static in Array Declarations
