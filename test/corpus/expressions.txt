@@ -342,6 +342,7 @@ int main() {
   u'c';
   U'\xa1';
   u8'\x1A';
+  '\x3';
 }
 
 --------------------------------------------------------------------------------
@@ -371,6 +372,9 @@ int main() {
       (expression_statement
         (char_literal
           (character)))
+      (expression_statement
+        (char_literal
+          (escape_sequence)))
       (expression_statement
         (char_literal
           (escape_sequence)))

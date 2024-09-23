@@ -1319,7 +1319,7 @@ module.exports = grammar({
       choice(
         /[^xuU]/,
         /\d{2,3}/,
-        /x[0-9a-fA-F]{2,}/,
+        /x[0-9a-fA-F]{1,4}/,
         /u[0-9a-fA-F]{4}/,
         /U[0-9a-fA-F]{8}/,
       ),
