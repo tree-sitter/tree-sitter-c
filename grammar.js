@@ -1335,7 +1335,6 @@ module.exports = grammar({
     null: _ => choice('NULL', 'nullptr'),
 
     identifier: _ =>
-      // eslint-disable-next-line max-len
       /(\p{XID_Start}|\$|_|\\u[0-9A-Fa-f]{4}|\\U[0-9A-Fa-f]{8})(\p{XID_Continue}|\$|\\u[0-9A-Fa-f]{4}|\\U[0-9A-Fa-f]{8})*/,
 
     _type_identifier: $ => alias(
@@ -1379,16 +1378,15 @@ module.exports.PREC = PREC;
  *
  * @param {number} precedence
  *
- * @return {RuleBuilders<string, string>}
+ * @returns {RuleBuilders<string, string>}
  */
 function preprocIf(suffix, content, precedence = 0) {
   /**
-    *
-    * @param {GrammarSymbols<string>} $
-    *
-    * @return {ChoiceRule}
-    *
-    */
+   *
+   * @param {GrammarSymbols<string>} $
+   *
+   * @returns {ChoiceRule}
+   */
   function alternativeBlock($) {
     return choice(
       suffix ? alias($['preproc_else' + suffix], $.preproc_else) : $.preproc_else,
@@ -1438,12 +1436,12 @@ function preprocIf(suffix, content, precedence = 0) {
 }
 
 /**
-  * Creates a preprocessor regex rule
-  *
-  * @param {RegExp|Rule|String} command
-  *
-  * @return {AliasRule}
-  */
+ * Creates a preprocessor regex rule
+ *
+ * @param {RegExp | Rule | string} command
+ *
+ * @returns {AliasRule}
+ */
 function preprocessor(command) {
   return alias(new RegExp('#[ \t]*' + command), '#' + command);
 }
@@ -1453,8 +1451,7 @@ function preprocessor(command) {
  *
  * @param {Rule} rule
  *
- * @return {ChoiceRule}
- *
+ * @returns {ChoiceRule}
  */
 function commaSep(rule) {
   return optional(commaSep1(rule));
@@ -1465,8 +1462,7 @@ function commaSep(rule) {
  *
  * @param {Rule} rule
  *
- * @return {SeqRule}
- *
+ * @returns {SeqRule}
  */
 function commaSep1(rule) {
   return seq(rule, repeat(seq(',', rule)));
