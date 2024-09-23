@@ -1163,7 +1163,7 @@ module.exports = grammar({
       )),
       field('constraint', $.string_literal),
       '(',
-      field('value', $.identifier),
+      field('value', $.expression),
       ')',
     ),
 
