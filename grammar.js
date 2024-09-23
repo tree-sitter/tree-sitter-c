@@ -623,6 +623,7 @@ module.exports = grammar({
           'long',
           'short',
         )),
+        repeat($.type_qualifier),
         field('type', optional(choice(
           prec.dynamic(-1, $._type_identifier),
           $.primitive_type,

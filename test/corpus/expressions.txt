@@ -1461,3 +1461,19 @@ Top Level Empty Expression Statement
 
 (translation_unit
   (expression_statement))
+
+================================================================================
+Sized Type Specifier With Type Qualifiers
+================================================================================
+
+unsigned const char *c;
+
+---
+
+(translation_unit
+  (declaration
+    (sized_type_specifier
+      (type_qualifier)
+      (primitive_type))
+    (pointer_declarator
+      (identifier))))
