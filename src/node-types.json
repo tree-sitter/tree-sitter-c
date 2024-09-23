@@ -2087,7 +2087,7 @@
         "required": true,
         "types": [
           {
-            "type": "identifier",
+            "type": "expression",
             "named": true
           }
         ]
@@ -3426,6 +3426,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "type_qualifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -4238,6 +4248,10 @@
   },
   {
     "type": "__asm__",
+    "named": false
+  },
+  {
+    "type": "__attribute",
     "named": false
   },
   {
