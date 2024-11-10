@@ -2,11 +2,17 @@
   "name": "tree-sitter-c",
   "version": "0.23.1",
   "description": "C grammar for tree-sitter",
-  "repository": "github:tree-sitter/tree-sitter-c",
+  "repository": "https://github.com/tree-sitter/tree-sitter-c",
   "license": "MIT",
-  "author": "Max Brunsfeld <maxbrunsfeld@gmail.com>",
+  "author": {
+    "name": "Max Brunsfeld",
+    "email": "maxbrunsfeld@gmail.com"
+  },
   "maintainers": [
-    "Amaan Qureshi <amaanq12@gmail.com>"
+    {
+      "name": "Amaan Qureshi",
+      "email": "amaanq12@gmail.com"
+    }
   ],
   "main": "bindings/node",
   "types": "bindings/node",
@@ -18,6 +24,7 @@
   ],
   "files": [
     "grammar.js",
+    "tree-sitter.json",
     "binding.gyp",
     "prebuilds/**",
     "bindings/node/*",
@@ -26,17 +33,17 @@
     "*.wasm"
   ],
   "dependencies": {
-    "node-addon-api": "^8.2.1",
+    "node-addon-api": "^8.2.2",
     "node-gyp-build": "^4.8.2"
   },
   "devDependencies": {
-    "eslint": "^9.12.0",
+    "eslint": "^9.14.0",
     "eslint-config-treesitter": "^1.0.2",
     "prebuildify": "^6.0.1",
-    "tree-sitter-cli": "^0.24.3"
+    "tree-sitter-cli": "^0.24.4"
   },
   "peerDependencies": {
-    "tree-sitter": "^0.21.0"
+    "tree-sitter": "^0.21.1"
   },
   "peerDependenciesMeta": {
     "tree-sitter": {
