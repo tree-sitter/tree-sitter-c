@@ -79,6 +79,20 @@ module.exports = grammar({
     $._abstract_declarator,
   ],
 
+  reserved: {
+    global: $ => [
+      'alignas', 'alignof', 'auto', 'break', 'case', 'const',
+      'constexpr', 'continue', 'default', 'do', 'else', 'enum',
+      'extern', $.false, 'for', 'goto', 'if', 'inline', 'long',
+      'nullptr', $.primitive_type, 'register', 'restrict', 'return',
+      'short', 'signed', 'sizeof', 'static', 'struct', 'switch',
+      'thread_local', $.true, 'typedef', 'union', 'unsigned',
+      'volatile', 'while', '_Alignas', '_Alignof', '_Atomic',
+      '_Generic', '_Noreturn',
+    ],
+    attributes: _ => [],
+  },
+
   word: $ => $.identifier,
 
   rules: {
@@ -132,12 +146,12 @@ module.exports = grammar({
       token.immediate(/\r?\n/),
     ),
 
-    preproc_def: $ => seq(
+    preproc_def: $ => reserved('attributes', seq(
       preprocessor('define'),
       field('name', $.identifier),
       field('value', optional($.preproc_arg)),
       token.immediate(/\r?\n/),
-    ),
+    )),
 
     preproc_function_def: $ => seq(
       preprocessor('define'),
@@ -304,13 +318,23 @@ module.exports = grammar({
     attribute_specifier: $ => seq(
       choice('__attribute__', '__attribute'),
       '(',
-      $.argument_list,
+      alias($._attribute_argument_list, $.argument_list),
+      ')',
+    ),
+
+    _attribute_argument_list: $ => seq(
+      '(',
+      commaSep(choice(
+        $.expression,
+        $.compound_statement,
+        alias('const', $.identifier),
+      )),
       ')',
     ),
 
     attribute: $ => seq(
       optional(seq(field('prefix', $.identifier), '::')),
-      field('name', $.identifier),
+      field('name', reserved('attributes', $.identifier)),
       optional($.argument_list),
     ),
 
