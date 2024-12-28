@@ -249,7 +249,7 @@ module.exports = grammar({
       optional($.ms_call_modifier),
       $._declaration_specifiers,
       field('declarator', alias($._old_style_function_declarator, $.function_declarator)),
-      repeat($.declaration),
+      repeat1($.declaration),
       field('body', $.compound_statement),
     ),
 
