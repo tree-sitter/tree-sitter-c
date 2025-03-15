@@ -9254,11 +9254,15 @@
                   "type": "IMMEDIATE_TOKEN",
                   "content": {
                     "type": "PATTERN",
-                    "value": "[^\\n']"
+                    "value": "[^\\\\\\n']"
                   }
                 },
                 "named": true,
                 "value": "character"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "invalid_escape_sequence"
               }
             ]
           }
@@ -9390,6 +9394,10 @@
               {
                 "type": "SYMBOL",
                 "name": "escape_sequence"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "invalid_escape_sequence"
               }
             ]
           }
@@ -9417,15 +9425,15 @@
               "members": [
                 {
                   "type": "PATTERN",
-                  "value": "[^xuU]"
+                  "value": "['\"?\\\\abfnrtv]"
                 },
                 {
                   "type": "PATTERN",
-                  "value": "\\d{2,3}"
+                  "value": "[0-7]{1,3}"
                 },
                 {
                   "type": "PATTERN",
-                  "value": "x[0-9a-fA-F]{1,4}"
+                  "value": "x[0-9a-fA-F]+"
                 },
                 {
                   "type": "PATTERN",
@@ -9434,6 +9442,39 @@
                 {
                   "type": "PATTERN",
                   "value": "U[0-9a-fA-F]{8}"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "invalid_escape_sequence": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "\\"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "[^'\"?\\\\abfnrtv]"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "u[0-9a-fA-F]{1,3}"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "U[0-9a-fA-F]{1,7}"
                 }
               ]
             }
@@ -9731,5 +9772,6 @@
     "_field_declarator",
     "_type_declarator",
     "_abstract_declarator"
-  ]
+  ],
+  "reserved": {}
 }

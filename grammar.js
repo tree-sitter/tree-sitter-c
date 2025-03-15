@@ -1289,7 +1289,8 @@ module.exports = grammar({
       choice('L\'', 'u\'', 'U\'', 'u8\'', '\''),
       repeat1(choice(
         $.escape_sequence,
-        alias(token.immediate(/[^\n']/), $.character),
+        alias(token.immediate(/[^\\\n']/), $.character),
+        $.invalid_escape_sequence,
       )),
       '\'',
     ),
@@ -1310,6 +1311,7 @@ module.exports = grammar({
       repeat(choice(
         alias(token.immediate(prec(1, /[^\\"\n]+/)), $.string_content),
         $.escape_sequence,
+        $.invalid_escape_sequence,
       )),
       '"',
     ),
@@ -1317,11 +1319,20 @@ module.exports = grammar({
     escape_sequence: _ => token(prec(1, seq(
       '\\',
       choice(
-        /[^xuU]/,
-        /\d{2,3}/,
-        /x[0-9a-fA-F]{1,4}/,
+        /['"?\\abfnrtv]/,
+        /[0-7]{1,3}/,
+        /x[0-9a-fA-F]+/,
         /u[0-9a-fA-F]{4}/,
         /U[0-9a-fA-F]{8}/,
+      ),
+    ))),
+
+    invalid_escape_sequence: _ => token(prec(1, seq(
+      '\\',
+      choice(
+        /[^'"?\\abfnrtv]/,
+        /u[0-9a-fA-F]{1,3}/,
+        /U[0-9a-fA-F]{1,7}/,
       ),
     ))),
 

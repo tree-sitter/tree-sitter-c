@@ -1047,6 +1047,10 @@
         {
           "type": "escape_sequence",
           "named": true
+        },
+        {
+          "type": "invalid_escape_sequence",
+          "named": true
         }
       ]
     }
@@ -3482,6 +3486,10 @@
           "named": true
         },
         {
+          "type": "invalid_escape_sequence",
+          "named": true
+        },
+        {
           "type": "string_content",
           "named": true
         }
@@ -4377,7 +4385,8 @@
   },
   {
     "type": "comment",
-    "named": true
+    "named": true,
+    "extra": true
   },
   {
     "type": "const",
@@ -4446,6 +4455,10 @@
   {
     "type": "inline",
     "named": false
+  },
+  {
+    "type": "invalid_escape_sequence",
+    "named": true
   },
   {
     "type": "long",
