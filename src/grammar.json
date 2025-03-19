@@ -4973,6 +4973,10 @@
           },
           {
             "type": "STRING",
+            "value": "wchar_t"
+          },
+          {
+            "type": "STRING",
             "value": "ptrdiff_t"
           },
           {

@@ -646,6 +646,7 @@ module.exports = grammar({
       'void',
       'size_t',
       'ssize_t',
+      'wchar_t',
       'ptrdiff_t',
       'intptr_t',
       'uintptr_t',
