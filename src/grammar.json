@@ -5042,10 +5042,6 @@
           {
             "type": "STRING",
             "value": "char32_t"
-          },
-          {
-            "type": "STRING",
-            "value": "char64_t"
           }
         ]
       }

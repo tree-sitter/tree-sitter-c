@@ -655,7 +655,7 @@ module.exports = grammar({
       'max_align_t',
       ...[8, 16, 32, 64].map(n => `int${n}_t`),
       ...[8, 16, 32, 64].map(n => `uint${n}_t`),
-      ...[8, 16, 32, 64].map(n => `char${n}_t`),
+      ...[8, 16, 32].map(n => `char${n}_t`),
     )),
 
     enum_specifier: $ => seq(
