@@ -14,7 +14,7 @@
 #pragma GCC optimize ("O0")
 #endif
 
-#define LANGUAGE_VERSION 14
+#define LANGUAGE_VERSION 15
 #define STATE_COUNT 2015
 #define LARGE_STATE_COUNT 455
 #define SYMBOL_COUNT 360
@@ -25,7 +25,7 @@
 #define MAX_ALIAS_SEQUENCE_LENGTH 9
 #define MAX_RESERVED_WORD_SET_SIZE 0
 #define PRODUCTION_ID_COUNT 131
-#define SUPERTYPE_COUNT 0
+#define SUPERTYPE_COUNT 7
 
 enum ts_symbol_identifiers {
   sym_identifier = 1,
@@ -5262,6 +5262,132 @@ static const TSStateId ts_primary_state_ids[STATE_COUNT] = {
   [2014] = 1809,
 };
 
+static const TSSymbol ts_supertype_symbols[SUPERTYPE_COUNT] = {
+  sym__abstract_declarator,
+  sym__declarator,
+  sym__field_declarator,
+  sym__type_declarator,
+  sym_expression,
+  sym_statement,
+  sym_type_specifier,
+};
+
+static const TSMapSlice ts_supertype_map_slices[] = {
+  [sym__abstract_declarator] = {.index = 0, .length = 4},
+  [sym__declarator] = {.index = 4, .length = 6},
+  [sym__field_declarator] = {.index = 10, .length = 18},
+  [sym__type_declarator] = {.index = 28, .length = 19},
+  [sym_expression] = {.index = 47, .length = 26},
+  [sym_statement] = {.index = 73, .length = 16},
+  [sym_type_specifier] = {.index = 89, .length = 7},
+};
+
+static const TSSymbol ts_supertype_map_entries[] = {
+  [0] =
+    sym_abstract_array_declarator,
+    sym_abstract_function_declarator,
+    sym_abstract_parenthesized_declarator,
+    sym_abstract_pointer_declarator,
+  [4] =
+    sym_array_declarator,
+    sym_attributed_declarator,
+    sym_function_declarator,
+    sym_identifier,
+    sym_parenthesized_declarator,
+    sym_pointer_declarator,
+  [10] =
+    alias_sym_field_identifier,
+    sym__function_declaration_declarator,
+    sym__old_style_function_declarator,
+    sym_array_declarator,
+    sym_array_field_declarator,
+    sym_array_type_declarator,
+    sym_attributed_declarator,
+    sym_attributed_field_declarator,
+    sym_attributed_type_declarator,
+    sym_function_declarator,
+    sym_function_field_declarator,
+    sym_function_type_declarator,
+    sym_parenthesized_declarator,
+    sym_parenthesized_field_declarator,
+    sym_parenthesized_type_declarator,
+    sym_pointer_declarator,
+    sym_pointer_field_declarator,
+    sym_pointer_type_declarator,
+  [28] =
+    alias_sym_type_identifier,
+    sym__function_declaration_declarator,
+    sym__old_style_function_declarator,
+    sym_array_declarator,
+    sym_array_field_declarator,
+    sym_array_type_declarator,
+    sym_attributed_declarator,
+    sym_attributed_field_declarator,
+    sym_attributed_type_declarator,
+    sym_function_declarator,
+    sym_function_field_declarator,
+    sym_function_type_declarator,
+    sym_parenthesized_declarator,
+    sym_parenthesized_field_declarator,
+    sym_parenthesized_type_declarator,
+    sym_pointer_declarator,
+    sym_pointer_field_declarator,
+    sym_pointer_type_declarator,
+    sym_primitive_type,
+  [47] =
+    sym_alignof_expression,
+    sym_assignment_expression,
+    sym_binary_expression,
+    sym_call_expression,
+    sym_cast_expression,
+    sym_char_literal,
+    sym_compound_literal_expression,
+    sym_concatenated_string,
+    sym_conditional_expression,
+    sym_extension_expression,
+    sym_false,
+    sym_field_expression,
+    sym_generic_expression,
+    sym_gnu_asm_expression,
+    sym_identifier,
+    sym_null,
+    sym_number_literal,
+    sym_offsetof_expression,
+    sym_parenthesized_expression,
+    sym_pointer_expression,
+    sym_sizeof_expression,
+    sym_string_literal,
+    sym_subscript_expression,
+    sym_true,
+    sym_unary_expression,
+    sym_update_expression,
+  [73] =
+    sym_attributed_statement,
+    sym_break_statement,
+    sym_case_statement,
+    sym_compound_statement,
+    sym_continue_statement,
+    sym_do_statement,
+    sym_expression_statement,
+    sym_for_statement,
+    sym_goto_statement,
+    sym_if_statement,
+    sym_labeled_statement,
+    sym_return_statement,
+    sym_seh_leave_statement,
+    sym_seh_try_statement,
+    sym_switch_statement,
+    sym_while_statement,
+  [89] =
+    alias_sym_type_identifier,
+    sym_enum_specifier,
+    sym_macro_type_specifier,
+    sym_primitive_type,
+    sym_sized_type_specifier,
+    sym_struct_specifier,
+    sym_union_specifier,
+};
+
 static const TSCharacterRange sym_number_literal_character_set_13[] = {
   {'0', '9'}, {'B', 'B'}, {'D', 'D'}, {'F', 'F'}, {'L', 'L'}, {'U', 'U'}, {'W', 'W'}, {'b', 'b'},
   {'d', 'd'}, {'f', 'f'}, {'l', 'l'}, {'u', 'u'}, {'w', 'w'},
@@ -9535,7 +9661,7 @@ static bool ts_lex_keywords(TSLexer *lexer, TSStateId state) {
   }
 }
 
-static const TSLexMode ts_lex_modes[STATE_COUNT] = {
+static const TSLexerMode ts_lex_modes[STATE_COUNT] = {
   [0] = {.lex_state = 0},
   [1] = {.lex_state = 120},
   [2] = {.lex_state = 45},
@@ -118708,6 +118834,7 @@ TS_PUBLIC const TSLanguage *tree_sitter_c(void) {
     .state_count = STATE_COUNT,
     .large_state_count = LARGE_STATE_COUNT,
     .production_id_count = PRODUCTION_ID_COUNT,
+    .supertype_count = SUPERTYPE_COUNT,
     .field_count = FIELD_COUNT,
     .max_alias_sequence_length = MAX_ALIAS_SEQUENCE_LENGTH,
     .parse_table = &ts_parse_table[0][0],
@@ -118718,6 +118845,9 @@ TS_PUBLIC const TSLanguage *tree_sitter_c(void) {
     .field_names = ts_field_names,
     .field_map_slices = ts_field_map_slices,
     .field_map_entries = ts_field_map_entries,
+    .supertype_map_slices = ts_supertype_map_slices,
+    .supertype_map_entries = ts_supertype_map_entries,
+    .supertype_symbols = ts_supertype_symbols,
     .symbol_metadata = ts_symbol_metadata,
     .public_symbol_map = ts_symbol_map,
     .alias_map = ts_non_terminal_alias_map,
@@ -118727,6 +118857,13 @@ TS_PUBLIC const TSLanguage *tree_sitter_c(void) {
     .keyword_lex_fn = ts_lex_keywords,
     .keyword_capture_token = sym_identifier,
     .primary_state_ids = ts_primary_state_ids,
+    .name = "c",
+    .max_reserved_word_set_size = 0,
+    .metadata = {
+      .major_version = 0,
+      .minor_version = 23,
+      .patch_version = 6,
+    },
   };
   return &language;
 }
