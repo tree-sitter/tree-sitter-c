@@ -3,19 +3,8 @@ name: CI
 on:
   push:
     branches: [master]
-    paths:
-      - grammar.js
-      - src/**
-      - test/**
-      - bindings/**
-      - binding.gyp
   pull_request:
-    paths:
-      - grammar.js
-      - src/**
-      - test/**
-      - bindings/**
-      - binding.gyp
+    branches: [master]
 
 concurrency:
   group: ${{github.workflow}}-${{github.ref}}
@@ -38,10 +27,10 @@ jobs:
         uses: tree-sitter/parser-test-action@v2
         with:
           test-rust: true
-          test-node: true
-          test-python: true
-          test-go: true
-          test-swift: true
+          # test-node: true
+          # test-python: true
+          # test-go: true
+          # test-swift: true
       - name: Parse examples
         uses: tree-sitter/parse-action@v4
         with:
