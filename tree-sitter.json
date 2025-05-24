@@ -38,7 +38,6 @@
     "node": true,
     "python": true,
     "rust": true,
-    "swift": true,
-    "zig": true
+    "swift": true
   }
 }
