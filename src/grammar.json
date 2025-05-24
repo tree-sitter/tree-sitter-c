@@ -4973,6 +4973,10 @@
           },
           {
             "type": "STRING",
+            "value": "wchar_t"
+          },
+          {
+            "type": "STRING",
             "value": "ptrdiff_t"
           },
           {
@@ -5038,10 +5042,6 @@
           {
             "type": "STRING",
             "value": "char32_t"
-          },
-          {
-            "type": "STRING",
-            "value": "char64_t"
           }
         ]
       }
