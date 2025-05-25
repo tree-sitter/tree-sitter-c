@@ -3,6 +3,7 @@
 ((identifier) @constant
  (#match? @constant "^[A-Z][A-Z\\d_]*$"))
 
+"_Generic" @keyword
 "break" @keyword
 "case" @keyword
 "const" @keyword
