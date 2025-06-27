@@ -35,3 +35,12 @@ jobs:
         uses: tree-sitter/parse-action@v4
         with:
           files: examples/*
+  build-wasm:
+    name: Build for WASM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          target: wasm32-unknown-unknown
+      - run: cargo build --target=wasm32-unknown-unknown
