@@ -420,25 +420,25 @@ module.exports = grammar({
     parenthesized_declarator: $ => prec.dynamic(PREC.PAREN_DECLARATOR, seq(
       '(',
       optional($.ms_call_modifier),
-      $._declarator,
+      field('declarator', $._declarator),
       ')',
     )),
     parenthesized_field_declarator: $ => prec.dynamic(PREC.PAREN_DECLARATOR, seq(
       '(',
       optional($.ms_call_modifier),
-      $._field_declarator,
+      field('declarator', $._field_declarator),
       ')',
     )),
     parenthesized_type_declarator: $ => prec.dynamic(PREC.PAREN_DECLARATOR, seq(
       '(',
       optional($.ms_call_modifier),
-      $._type_declarator,
+      field('declarator', $._type_declarator),
       ')',
     )),
     abstract_parenthesized_declarator: $ => prec(1, seq(
       '(',
       optional($.ms_call_modifier),
-      $._abstract_declarator,
+      field('declarator', $._abstract_declarator),
       ')',
     )),
 
