@@ -53,6 +53,16 @@ module.exports = grammar({
     [$._top_level_item, $._top_level_statement],
     [$.type_specifier, $._top_level_expression_statement],
     [$.type_qualifier, $.extension_expression],
+    [$.preproc_else],
+    [$.preproc_else_in_field_declaration_list],
+    [$.preproc_elif],
+    [$.preproc_elif_in_field_declaration_list],
+    [$.preproc_elif_in_enumerator_list],
+    [$.preproc_elif_in_enumerator_list_no_comma],
+    [$.preproc_elifdef],
+    [$.preproc_elifdef_in_field_declaration_list],
+    [$.preproc_elifdef_in_enumerator_list],
+    [$.preproc_elifdef_in_enumerator_list_no_comma],
   ],
 
   extras: $ => [
@@ -122,7 +132,7 @@ module.exports = grammar({
     // Preprocesser
 
     preproc_include: $ => seq(
-      preprocessor('include'),
+      preprocessor($, 'include'),
       field('path', choice(
         $.string_literal,
         $.system_lib_string,
@@ -133,14 +143,14 @@ module.exports = grammar({
     ),
 
     preproc_def: $ => seq(
-      preprocessor('define'),
+      preprocessor($, 'define'),
       field('name', $.identifier),
       field('value', optional($.preproc_arg)),
       token.immediate(/\r?\n/),
     ),
 
     preproc_function_def: $ => seq(
-      preprocessor('define'),
+      preprocessor($, 'define'),
       field('name', $.identifier),
       field('parameters', $.preproc_params),
       field('value', optional($.preproc_arg)),
@@ -163,7 +173,7 @@ module.exports = grammar({
     ...preprocIf('_in_enumerator_list_no_comma', $ => $.enumerator, -1),
 
     preproc_arg: _ => token(prec(-1, /\S([^/\n]|\/[^*]|\\\r?\n)*/)),
-    preproc_directive: _ => /#[ \t]*[a-zA-Z0-9]\w*/,
+    preproc_directive: _ => seq(alias(/#[ \t]*/, '#'), token.immediate(/[a-zA-Z0-9]\w*/)),
 
     _preproc_expression: $ => choice(
       $.identifier,
@@ -1286,12 +1296,12 @@ module.exports = grammar({
     },
 
     char_literal: $ => seq(
-      choice('L\'', 'u\'', 'U\'', 'u8\'', '\''),
+      field('start', choice('L\'', 'u\'', 'U\'', 'u8\'', '\'')),
       repeat1(choice(
         $.escape_sequence,
         alias(token.immediate(/[^\n']/), $.character),
       )),
-      '\'',
+      field('end', '\''),
     ),
 
     // Must concatenate at least 2 nodes, one of which must be a string_literal.
@@ -1306,12 +1316,12 @@ module.exports = grammar({
     )),
 
     string_literal: $ => seq(
-      choice('L"', 'u"', 'U"', 'u8"', '"'),
+      field('start', choice('L"', 'u"', 'U"', 'u8"', '"')),
       repeat(choice(
         alias(token.immediate(prec(1, /[^\\"\n]+/)), $.string_content),
         $.escape_sequence,
       )),
-      '"',
+      field('end', '"'),
     ),
 
     escape_sequence: _ => token(prec(1, seq(
@@ -1325,11 +1335,11 @@ module.exports = grammar({
       ),
     ))),
 
-    system_lib_string: _ => token(seq(
+    system_lib_string: _ => seq(
       '<',
-      repeat(choice(/[^>\n]/, '\\>')),
+      token(repeat(choice(/[^>\n]/, '\\>'))),
       '>',
-    )),
+    ),
 
     true: _ => token(choice('TRUE', 'true')),
     false: _ => token(choice('FALSE', 'false')),
@@ -1396,29 +1406,29 @@ function preprocIf(suffix, content, precedence = 0) {
 
   return {
     ['preproc_if' + suffix]: $ => prec(precedence, seq(
-      preprocessor('if'),
+      preprocessor($, 'if'),
       field('condition', $._preproc_expression),
       '\n',
       repeat(content($)),
       field('alternative', optional(alternativeBlock($))),
-      preprocessor('endif'),
+      preprocessor($, 'endif'),
     )),
 
     ['preproc_ifdef' + suffix]: $ => prec(precedence, seq(
-      choice(preprocessor('ifdef'), preprocessor('ifndef')),
+      choice(preprocessor($, 'ifdef'), preprocessor($, 'ifndef')),
       field('name', $.identifier),
       repeat(content($)),
       field('alternative', optional(alternativeBlock($))),
-      preprocessor('endif'),
+      preprocessor($, 'endif'),
     )),
 
     ['preproc_else' + suffix]: $ => prec(precedence, seq(
-      preprocessor('else'),
+      preprocessor($, 'else'),
       repeat(content($)),
     )),
 
     ['preproc_elif' + suffix]: $ => prec(precedence, seq(
-      preprocessor('elif'),
+      preprocessor($, 'elif'),
       field('condition', $._preproc_expression),
       '\n',
       repeat(content($)),
@@ -1426,7 +1436,7 @@ function preprocIf(suffix, content, precedence = 0) {
     )),
 
     ['preproc_elifdef' + suffix]: $ => prec(precedence, seq(
-      choice(preprocessor('elifdef'), preprocessor('elifndef')),
+      choice(preprocessor($, 'elifdef'), preprocessor($, 'elifndef')),
       field('name', $.identifier),
       repeat(content($)),
       field('alternative', optional(alternativeBlock($))),
@@ -1441,8 +1451,8 @@ function preprocIf(suffix, content, precedence = 0) {
  *
  * @returns {AliasRule}
  */
-function preprocessor(command) {
-  return alias(new RegExp('#[ \t]*' + command), '#' + command);
+function preprocessor($, command) {
+  return alias(seq(alias(/#[ \t]*/, '#'), token.immediate(command)), $.preproc_directive);
 }
 
 /**
