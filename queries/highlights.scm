@@ -24,6 +24,7 @@
 "union" @keyword
 "volatile" @keyword
 "while" @keyword
+"goto" @keyword
 
 "#define" @keyword
 "#elif" @keyword
