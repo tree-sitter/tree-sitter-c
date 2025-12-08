@@ -1089,7 +1089,7 @@ module.exports = grammar({
     sizeof_expression: $ => prec(PREC.SIZEOF, seq(
       'sizeof',
       choice(
-        field('value', $.expression),
+        field('value', prec.dynamic(1, $.expression)),
         seq('(', field('type', $.type_descriptor), ')'),
       ),
     )),
