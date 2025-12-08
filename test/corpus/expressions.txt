@@ -682,6 +682,7 @@ int main() {
   sizeof(1) + 1;
   sizeof((1) + 1);
   sizeof(int) + 1;
+  sizeof(foo)();
   sizeof(struct foo) + sizeof(struct bar) + 1;
 }
 
@@ -738,6 +739,12 @@ int main() {
             (type_descriptor
               (primitive_type)))
           (number_literal)))
+      (expression_statement
+        (sizeof_expression
+          (call_expression
+            (parenthesized_expression
+              (identifier))
+            (argument_list))))
       (expression_statement
         (binary_expression
           (binary_expression
