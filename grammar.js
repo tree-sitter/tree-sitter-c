@@ -53,6 +53,8 @@ module.exports = grammar({
     [$._top_level_item, $._top_level_statement],
     [$.type_specifier, $._top_level_expression_statement],
     [$.type_qualifier, $.extension_expression],
+    [$.expression, $._cast_expression_value],
+    [$.pointer_expression, $._pointer_expression_no_addr],
   ],
 
   extras: $ => [
@@ -1076,7 +1078,45 @@ module.exports = grammar({
       '(',
       field('type', $.type_descriptor),
       ')',
-      field('value', $.expression),
+      field('value', $._cast_expression_value),
+    )),
+
+    // Cast expression value cannot start with '&' since (type)&& would be
+    // ambiguous with logical AND and (type)&(&expr) is invalid C (can't take
+    // address of an rvalue). This prevents (foo) && bar from being parsed as
+    // a cast expression.
+    _cast_expression_value: $ => choice(
+      $.conditional_expression,
+      $.assignment_expression,
+      $.unary_expression,
+      $.update_expression,
+      $.cast_expression,
+      alias($._pointer_expression_no_addr, $.pointer_expression),
+      $.sizeof_expression,
+      $.alignof_expression,
+      $.offsetof_expression,
+      $.generic_expression,
+      $.subscript_expression,
+      $.call_expression,
+      $.field_expression,
+      $.compound_literal_expression,
+      $.identifier,
+      $.number_literal,
+      $._string,
+      $.true,
+      $.false,
+      $.null,
+      $.char_literal,
+      $.parenthesized_expression,
+      $.gnu_asm_expression,
+      $.extension_expression,
+      $.binary_expression,
+    ),
+
+    // Pointer expression that only allows dereference (*), not address-of (&)
+    _pointer_expression_no_addr: $ => prec.left(PREC.CAST, seq(
+      field('operator', '*'),
+      field('argument', $.expression),
     )),
 
     type_descriptor: $ => seq(

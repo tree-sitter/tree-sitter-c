@@ -671,6 +671,38 @@ int main() {
             value: (identifier)))))))
 
 ================================================================================
+Cast expression does not consume logical AND (#291)
+================================================================================
+
+int main() {
+  if ((pVal) && pVal->pSrc->nSrc > 0) {
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list))
+    body: (compound_statement
+      (if_statement
+        condition: (parenthesized_expression
+          (binary_expression
+            left: (parenthesized_expression
+              (identifier))
+            right: (binary_expression
+              left: (field_expression
+                argument: (field_expression
+                  argument: (identifier)
+                  field: (field_identifier))
+                field: (field_identifier))
+              right: (number_literal))))
+        consequence: (compound_statement)))))
+
+================================================================================
 Sizeof expressions
 ================================================================================
 
