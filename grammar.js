@@ -449,6 +449,7 @@ module.exports = grammar({
     pointer_declarator: $ => prec.dynamic(1, prec.right(seq(
       optional($.ms_based_modifier),
       '*',
+      repeat($.attribute_specifier),
       repeat($.ms_pointer_modifier),
       repeat($.type_qualifier),
       field('declarator', $._declarator),
