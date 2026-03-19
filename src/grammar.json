@@ -9610,6 +9610,42 @@
               {
                 "type": "PATTERN",
                 "value": "(\\\\+(.|\\r?\\n)|[^\\\\\\n])*"
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "STRING",
+                          "value": "\r"
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "\n"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "[\\t ]*"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "//"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "(\\\\+(.|\\r?\\n)|[^\\\\\\n])*"
+                    }
+                  ]
+                }
               }
             ]
           },
