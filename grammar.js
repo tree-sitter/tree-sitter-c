@@ -1357,9 +1357,16 @@ module.exports = grammar({
       ')',
     )),
 
-    // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: _ => token(choice(
-      seq('//', /(\\+(.|\r?\n)|[^\\\n])*/),
+      // Merging subsequent C++ style comments to a single node when separated
+      // by white space only. This allows an injection querie to pass on
+      // related comments as a whole (e.g. to parse Doxygen markup spanning
+      // multiple lines).
+      seq(
+        '//', /(\\+(.|\r?\n)|[^\\\n])*/,
+        repeat(seq(optional('\r'), '\n', /[\t ]*/, '//', /(\\+(.|\r?\n)|[^\\\n])*/))
+      ),
+      // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
       seq(
         '/*',
         /[^*]*\*+([^/*][^*]*\*+)*/,
