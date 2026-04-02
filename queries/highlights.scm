@@ -35,22 +35,50 @@
 "#include" @keyword
 (preproc_directive) @keyword
 
-"--" @operator
-"-" @operator
-"-=" @operator
-"->" @operator
 "=" @operator
-"!=" @operator
-"*" @operator
-"&" @operator
-"&&" @operator
-"+" @operator
-"++" @operator
 "+=" @operator
-"<" @operator
-"==" @operator
-">" @operator
+"-=" @operator
+"*=" @operator
+"/=" @operator
+"%=" @operator
+"&=" @operator
+"|=" @operator
+"^=" @operator
+"<<=" @operator
+">>=" @operator
+
+"++" @operator
+"--" @operator
+
+"+" @operator
+"-" @operator
+"*" @operator
+"/" @operator
+"%" @operator
+"~" @operator
+"&" @operator
+"|" @operator
+"^" @operator
+"<<" @operator
+">>" @operator
+
+"!" @operator
+"&&" @operator
 "||" @operator
+
+"==" @operator
+"!=" @operator
+"<" @operator
+">" @operator
+"<=" @operator
+">=" @operator
+
+"->" @operator
+
+"?" @operator
+":" @operator
+
+
 
 "." @delimiter
 ";" @delimiter
