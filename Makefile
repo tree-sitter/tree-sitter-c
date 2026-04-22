@@ -1,6 +1,6 @@
 LANGUAGE_NAME := tree-sitter-c
 HOMEPAGE_URL := https://github.com/tree-sitter/tree-sitter-c
-VERSION := 0.24.1
+VERSION := 0.24.2
 
 # repository
 SRC_DIR := src

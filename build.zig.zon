@@ -2,7 +2,7 @@
     .name = .tree_sitter_c,
     .fingerprint = 0x14eb68f94be896cb,
     .minimum_zig_version = "0.16.0",
-    .version = "0.24.1",
+    .version = "0.24.2",
     .dependencies = .{
         .tree_sitter = .{
             .url = "git+https://github.com/tree-sitter/zig-tree-sitter#0cf58172e61f6fdd16f681cde42b4acb531a23db",
