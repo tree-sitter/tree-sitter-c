@@ -6,6 +6,6 @@ import tree_sitter, tree_sitter_c
 class TestLanguage(TestCase):
     def test_can_load_grammar(self):
         try:
-            tree_sitter.Language(tree_sitter_c.language())
+            Parser(Language(tree_sitter_c.language()))
         except Exception:
             self.fail("Error loading C grammar")
