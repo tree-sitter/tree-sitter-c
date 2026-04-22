@@ -53,6 +53,7 @@ module.exports = grammar({
     [$._top_level_item, $._top_level_statement],
     [$.type_specifier, $._top_level_expression_statement],
     [$.type_qualifier, $.extension_expression],
+    [$.auto_type, $.storage_class_specifier],
   ],
 
   extras: $ => [
@@ -100,6 +101,8 @@ module.exports = grammar({
       $.preproc_def,
       $.preproc_function_def,
       $.preproc_call,
+      $.preproc_errwarn,
+      $.preproc_embed,
     ),
 
     _block_item: $ => choice(
@@ -117,6 +120,8 @@ module.exports = grammar({
       $.preproc_def,
       $.preproc_function_def,
       $.preproc_call,
+      $.preproc_errwarn,
+      $.preproc_embed,
     ),
 
     // Preprocesser
@@ -154,6 +159,23 @@ module.exports = grammar({
     preproc_call: $ => seq(
       field('directive', $.preproc_directive),
       field('argument', optional($.preproc_arg)),
+      token.immediate(/\r?\n/),
+    ),
+
+    preproc_errwarn: $ => seq(
+      choice(preprocessor('error'), preprocessor('warning')),
+      field('message', optional(token.immediate(/[^\r\n]*/))),
+      token.immediate(/\r?\n/),
+    ),
+
+    preproc_embed: $ => seq(
+      preprocessor('embed'),
+      field('path', choice(
+        $.string_literal,
+        $.system_lib_string,
+        $.identifier,
+        alias($.preproc_call_expression, $.call_expression),
+      )),
       token.immediate(/\r?\n/),
     ),
 
@@ -593,9 +615,12 @@ module.exports = grammar({
       $.enum_specifier,
       $.macro_type_specifier,
       $.sized_type_specifier,
+      $.auto_type,
       $.primitive_type,
       $._type_identifier,
     ),
+
+    auto_type: _ => 'auto',
 
     sized_type_specifier: $ => choice(
       seq(
@@ -637,25 +662,32 @@ module.exports = grammar({
       ),
     ),
 
-    primitive_type: _ => token(choice(
-      'bool',
-      'char',
-      'int',
-      'float',
-      'double',
-      'void',
-      'size_t',
-      'ssize_t',
-      'ptrdiff_t',
-      'intptr_t',
-      'uintptr_t',
-      'charptr_t',
-      'nullptr_t',
-      'max_align_t',
-      ...[8, 16, 32, 64].map(n => `int${n}_t`),
-      ...[8, 16, 32, 64].map(n => `uint${n}_t`),
-      ...[8, 16, 32, 64].map(n => `char${n}_t`),
-    )),
+    primitive_type: $ => choice(
+      token(choice(
+        'bool',
+        'char',
+        'int',
+        'float',
+        'double',
+        'void',
+        'size_t',
+        'ssize_t',
+        'ptrdiff_t',
+        'intptr_t',
+        'uintptr_t',
+        'charptr_t',
+        'nullptr_t',
+        'max_align_t',
+        ...[8, 16, 32, 64].map(n => `int${n}_t`),
+        ...[8, 16, 32, 64].map(n => `uint${n}_t`),
+        ...[8, 16, 32, 64].map(n => `char${n}_t`),
+        seq('_Float', /\d+/),
+        seq('_Float', /\d+/, 'x'),
+        seq('_Decimal', /\d+/),
+        seq('_Decimal', /\d+/, 'x'),
+      )),
+      seq('_BitInt', '(', $.number_literal, ')'),
+    ),
 
     enum_specifier: $ => seq(
       'enum',
@@ -956,6 +988,8 @@ module.exports = grammar({
       $.cast_expression,
       $.pointer_expression,
       $.sizeof_expression,
+      $.static_assert_expression,
+      $.typeof_expression,
       $.alignof_expression,
       $.offsetof_expression,
       $.generic_expression,
@@ -1102,6 +1136,21 @@ module.exports = grammar({
     offsetof_expression: $ => prec(PREC.OFFSETOF, seq(
       'offsetof',
       seq('(', field('type', $.type_descriptor), ',', field('member', $._field_identifier), ')'),
+    )),
+
+    static_assert_expression: $ => prec(PREC.SIZEOF, seq(
+      choice('static_assert', '_Static_assert'),
+      '(',
+      field('condition', $.expression),
+      optional(seq(',', field('message', $.string_literal))),
+      ')'
+    )),
+
+    typeof_expression: $ => prec(PREC.SIZEOF, seq(
+      choice('typeof', 'typeof_unqual'),
+      '(',
+      choice(field('type', $.type_descriptor), field('value', $.expression)),
+      ')',
     )),
 
     generic_expression: $ => prec(PREC.CALL, seq(
@@ -1353,7 +1402,8 @@ module.exports = grammar({
     macro_type_specifier: $ => prec.dynamic(-1, seq(
       field('name', $.identifier),
       '(',
-      field('type', $.type_descriptor),
+      commaSep1($.type_descriptor),
+      optional(','),
       ')',
     )),
 
