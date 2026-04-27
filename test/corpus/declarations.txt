@@ -523,6 +523,7 @@ Function declarations
 int main(int argc, const char **argv);
 static foo bar();
 static baz quux(...);
+int * __attribute__((used)) foobar(void);
 
 --------------------------------------------------------------------------------
 
@@ -553,7 +554,18 @@ static baz quux(...);
     (function_declarator
       (identifier)
       (parameter_list
-        (variadic_parameter)))))
+        (variadic_parameter))))
+  (declaration
+    (primitive_type)
+    (pointer_declarator
+      (attribute_specifier
+        (argument_list
+          (identifier)))
+      (function_declarator
+        (identifier)
+        (parameter_list
+          (parameter_declaration
+            (primitive_type)))))))
 
 ================================================================================
 Function definitions
