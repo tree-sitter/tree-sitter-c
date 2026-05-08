@@ -51,11 +51,13 @@
 "==" @operator
 ">" @operator
 "||" @operator
+"##" @operator
 
 "." @delimiter
 ";" @delimiter
 
 (string_literal) @string
+(stringification) @keyword
 (system_lib_string) @string
 
 (null) @constant
