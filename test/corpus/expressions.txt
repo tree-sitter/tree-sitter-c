@@ -283,6 +283,8 @@ int main() {
   u"guten morgen";
   U"buenos dias";
   u8"buongiorno";
+  "q\749q\qq\xq\8q\9q";
+  "\x00000000a";
 }
 
 --------------------------------------------------------------------------------
@@ -327,7 +329,23 @@ int main() {
           (string_content)))
       (expression_statement
         (string_literal
-          (string_content))))))
+          (string_content)))
+      (expression_statement
+        (string_literal
+          (string_content)
+          (escape_sequence)
+          (string_content)
+          (invalid_escape_sequence)
+          (string_content)
+          (invalid_escape_sequence)
+          (string_content)
+          (invalid_escape_sequence)
+          (string_content)
+          (invalid_escape_sequence)
+          (string_content)))
+      (expression_statement
+        (string_literal
+          (escape_sequence))))))
 
 ================================================================================
 Character literals
@@ -343,6 +361,8 @@ int main() {
   U'\xa1';
   u8'\x1A';
   '\x3';
+  '\q';
+  '\x00000000a';
 }
 
 --------------------------------------------------------------------------------
@@ -378,6 +398,12 @@ int main() {
       (expression_statement
         (char_literal
           (escape_sequence)))
+      (expression_statement
+        (char_literal
+          (escape_sequence)))
+      (expression_statement
+        (char_literal
+          (invalid_escape_sequence)))
       (expression_statement
         (char_literal
           (escape_sequence))))))
