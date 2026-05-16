@@ -848,6 +848,8 @@ int main() {
     8
   };
   z = (char const []) {'a', 'b'};
+  (static int){42};
+  (static thread_local long){1l};
 }
 
 --------------------------------------------------------------------------------
@@ -910,7 +912,22 @@ int main() {
               (char_literal
                 (character))
               (char_literal
-                (character)))))))))
+                (character))))))
+          (expression_statement
+            (compound_literal_expression
+              (storage_class_specifier)
+              (type_descriptor
+                (primitive_type))
+              (initializer_list
+                (number_literal))))
+          (expression_statement
+            (compound_literal_expression
+              (storage_class_specifier)
+              (storage_class_specifier)
+              (type_descriptor
+                (sized_type_specifier))
+              (initializer_list
+                (number_literal)))))))
 
 ================================================================================
 Compound literals with trailing commas

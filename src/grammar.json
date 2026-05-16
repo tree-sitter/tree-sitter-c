@@ -8585,6 +8585,17 @@
         },
         {
           "type": "FIELD",
+          "name": "storage_class",
+          "content": {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "storage_class_specifier"
+            }
+          }
+        },
+        {
+          "type": "FIELD",
           "name": "type",
           "content": {
             "type": "SYMBOL",

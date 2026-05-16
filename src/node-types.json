@@ -1085,6 +1085,16 @@
     "type": "compound_literal_expression",
     "named": true,
     "fields": {
+      "storage_class": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "storage_class_specifier",
+            "named": true
+          }
+        ]
+      },
       "type": {
         "multiple": false,
         "required": true,
