@@ -792,6 +792,7 @@ module.exports = grammar({
       $.compound_statement,
       $.expression_statement,
       $.if_statement,
+      $.defer_statement,
       $.switch_statement,
       $.do_statement,
       $.while_statement,
@@ -811,6 +812,7 @@ module.exports = grammar({
       $.compound_statement,
       alias($._top_level_expression_statement, $.expression_statement),
       $.if_statement,
+      $.defer_statement,
       $.switch_statement,
       $.do_statement,
       $.while_statement,
@@ -841,6 +843,11 @@ module.exports = grammar({
       ';',
     ),
 
+    defer_statement: $ => prec.right(seq(
+      'defer',
+      field('consequence', $.statement)
+    )),
+      
     if_statement: $ => prec.right(seq(
       'if',
       field('condition', $.parenthesized_expression),
