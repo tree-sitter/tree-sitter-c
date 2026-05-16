@@ -1209,6 +1209,7 @@ module.exports = grammar({
 
     compound_literal_expression: $ => seq(
       '(',
+      field('storage_class', repeat($.storage_class_specifier)),
       field('type', $.type_descriptor),
       ')',
       field('value', $.initializer_list),
