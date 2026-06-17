@@ -35,6 +35,11 @@ const PREC = {
 module.exports = grammar({
   name: 'c',
 
+  externals: $ => [
+    $.gnu_raw_string_delimiter,
+    $.gnu_raw_string_content,
+  ],
+ 
   conflicts: $ => [
     [$.type_specifier, $._declarator],
     [$.type_specifier, $._declarator, $.macro_type_specifier],
@@ -977,8 +982,24 @@ module.exports = grammar({
 
     _string: $ => prec.left(choice(
       $.string_literal,
+      $.gnu_raw_string_literal,
       $.concatenated_string,
     )),
+
+    gnu_raw_string_literal: $ => seq(
+      choice('R"', 'LR"', 'uR"', 'UR"', 'u8R"'),
+      choice(
+        seq(
+          field('delimiter', $.gnu_raw_string_delimiter),
+          '(',
+          $.gnu_raw_string_content,
+          ')',
+          $.gnu_raw_string_delimiter,
+        ),
+        seq('(', $.gnu_raw_string_content, ')'),
+      ),
+      '"',
+    ),
 
     comma_expression: $ => seq(
       field('left', $.expression),
@@ -1298,11 +1319,11 @@ module.exports = grammar({
     // Identifier is added to parse macros that are strings, like PRIu64.
     concatenated_string: $ => prec.right(seq(
       choice(
-        seq($.identifier, $.string_literal),
-        seq($.string_literal, $.string_literal),
-        seq($.string_literal, $.identifier),
+        seq($.identifier, choice($.string_literal, $.gnu_raw_string_literal)),
+        seq(choice($.string_literal, $.gnu_raw_string_literal), choice($.string_literal, $.gnu_raw_string_literal)),
+        seq(choice($.string_literal, $.gnu_raw_string_literal), $.identifier),
       ),
-      repeat(choice($.string_literal, $.identifier)),
+      repeat(choice($.string_literal, $.gnu_raw_string_literal, $.identifier)),
     )),
 
     string_literal: $ => seq(
