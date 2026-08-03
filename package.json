@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-c",
-  "version": "0.24.1",
+  "version": "0.24.2",
   "description": "C grammar for tree-sitter",
   "repository": "https://github.com/tree-sitter/tree-sitter-c",
   "license": "MIT",
@@ -33,7 +33,7 @@
     "*.wasm"
   ],
   "dependencies": {
-    "node-addon-api": "^8.3.1",
+    "node-addon-api": "^8.5.0",
     "node-gyp-build": "^4.8.4"
   },
   "devDependencies": {

@@ -1,4 +1,5 @@
 {
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
   "grammars": [
     {
       "name": "c",
@@ -15,7 +16,7 @@
     }
   ],
   "metadata": {
-    "version": "0.24.1",
+    "version": "0.24.2",
     "license": "MIT",
     "description": "C grammar for tree-sitter",
     "authors": [
@@ -35,9 +36,11 @@
   "bindings": {
     "c": true,
     "go": true,
+    "java": false,
     "node": true,
     "python": true,
     "rust": true,
-    "swift": true
+    "swift": true,
+    "zig": true
   }
 }
