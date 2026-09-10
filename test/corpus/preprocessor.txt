@@ -447,3 +447,95 @@ uint32_t a;
     (declaration
       (primitive_type)
       (identifier))))
+
+================================================================================
+Line marker between array initializer elements
+================================================================================
+
+int a[] = {
+    1,
+#line 100 "x.h"
+    2,
+    3
+};
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    type: (primitive_type)
+    declarator: (init_declarator
+      declarator: (array_declarator
+        declarator: (identifier))
+      value: (initializer_list
+        (number_literal)
+        (preproc_call
+          directive: (preproc_directive)
+          argument: (preproc_arg))
+        (number_literal)
+        (number_literal)))))
+
+================================================================================
+Line marker between struct initializer elements
+================================================================================
+
+struct S { int x; int y; };
+struct S s = {
+    1,
+#line 100 "x.h"
+    2
+};
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (struct_specifier
+    name: (type_identifier)
+    body: (field_declaration_list
+      (field_declaration
+        type: (primitive_type)
+        declarator: (field_identifier))
+      (field_declaration
+        type: (primitive_type)
+        declarator: (field_identifier))))
+  (declaration
+    type: (struct_specifier
+      name: (type_identifier))
+    declarator: (init_declarator
+      declarator: (identifier)
+      value: (initializer_list
+        (number_literal)
+        (preproc_call
+          directive: (preproc_directive)
+          argument: (preproc_arg))
+        (number_literal)))))
+
+================================================================================
+Line marker between enumerators
+================================================================================
+
+enum E {
+    A = 0,
+#line 100 "x.h"
+    B = 1,
+    C = 2
+};
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (enum_specifier
+    name: (type_identifier)
+    body: (enumerator_list
+      (enumerator
+        name: (identifier)
+        value: (number_literal))
+      (preproc_call
+        directive: (preproc_directive)
+        argument: (preproc_arg))
+      (enumerator
+        name: (identifier)
+        value: (number_literal))
+      (enumerator
+        name: (identifier)
+        value: (number_literal)))))
