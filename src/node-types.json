@@ -2345,6 +2345,10 @@
         "required": true,
         "types": [
           {
+            "type": "expression",
+            "named": true
+          },
+          {
             "type": "type_descriptor",
             "named": true
           }

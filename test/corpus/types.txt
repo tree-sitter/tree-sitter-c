@@ -78,3 +78,43 @@ void f(unsigned long v2);
     (function_declarator
       (identifier)
       (parameter_list (parameter_declaration (sized_type_specifier) (identifier))))))
+
+================================================================================
+Typeof with a type name
+================================================================================
+
+typeof(int) x;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    type: (macro_type_specifier
+      name: (identifier)
+      type: (type_descriptor
+        type: (primitive_type)))
+    declarator: (identifier)))
+
+================================================================================
+Typeof with an expression
+================================================================================
+
+typeof(*p) x;
+typeof(p + 1) y;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    type: (macro_type_specifier
+      name: (identifier)
+      type: (pointer_expression
+        argument: (identifier)))
+    declarator: (identifier))
+  (declaration
+    type: (macro_type_specifier
+      name: (identifier)
+      type: (binary_expression
+        left: (identifier)
+        right: (number_literal)))
+    declarator: (identifier)))
