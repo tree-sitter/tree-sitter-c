@@ -1353,7 +1353,9 @@ module.exports = grammar({
     macro_type_specifier: $ => prec.dynamic(-1, seq(
       field('name', $.identifier),
       '(',
-      field('type', $.type_descriptor),
+      // typeof/__typeof__ accepts either a type-name or a parenthesized
+      // expression (GNU extension and C23); previously only types parsed.
+      field('type', choice($.type_descriptor, $.expression)),
       ')',
     )),
 
