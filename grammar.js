@@ -677,6 +677,9 @@ module.exports = grammar({
         alias($.preproc_if_in_enumerator_list, $.preproc_if),
         alias($.preproc_ifdef_in_enumerator_list, $.preproc_ifdef),
         seq($.preproc_call, ','),
+        // A standalone line marker (e.g. #line) may appear between enumerators
+        // without a trailing comma when an X-macro #include is expanded.
+        prec(1, $.preproc_call),
       )),
       optional(seq(
         choice(
@@ -1222,7 +1225,15 @@ module.exports = grammar({
 
     initializer_list: $ => seq(
       '{',
-      commaSep(choice(
+      repeat(prec(1, choice(
+        seq($.initializer_pair, ','),
+        seq($.expression, ','),
+        seq($.initializer_list, ','),
+        // A standalone preprocessor directive (e.g. a #line marker emitted when
+        // an X-macro #include expands inside the initializer) needs no comma.
+        $.preproc_call,
+      ))),
+      optional(choice(
         $.initializer_pair,
         $.expression,
         $.initializer_list,
