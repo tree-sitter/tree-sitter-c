@@ -1319,15 +1319,8 @@ export const
     '<',
     repeat(choice(/[^>\n]/, '\\>')),
     '>',
-  )));
+  ))),
 
-const _true = rule(() => token(choice('TRUE', 'true'))),
-
-  _false = rule(() => token(choice('FALSE', 'false'))),
-
-  _null = rule(() => choice('NULL', 'nullptr'));
-
-export const
   identifier = rule(() =>
     new RustRegex(String.raw`(\p{XID_Start}|\$|_|\\u[0-9A-Fa-f]{4}|\\U[0-9A-Fa-f]{8})(\p{XID_Continue}|\$|\\u[0-9A-Fa-f]{4}|\\U[0-9A-Fa-f]{8})*`)),
 
@@ -1362,6 +1355,13 @@ export const
       '/',
     ),
   )));
+
+// These public names cannot be used as local bindings in an ES module.
+const _true = rule(() => token(choice('TRUE', 'true'))),
+
+  _false = rule(() => token(choice('FALSE', 'false'))),
+
+  _null = rule(() => choice('NULL', 'nullptr'));
 
 export {_true as true, _false as false, _null as null};
 
