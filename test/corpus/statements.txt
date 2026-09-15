@@ -533,3 +533,89 @@ void f() {
           (compound_statement))
         (parenthesized_expression
           (true))))))
+
+================================================================================
+Case ranges (GNU extension)
+================================================================================
+
+int main(int x) {
+  switch (x) {
+    case 1 ... 3:
+      return 0;
+    case 4:
+      return 1;
+    default:
+      return -1;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (primitive_type)
+          (identifier))))
+    (compound_statement
+      (switch_statement
+        (parenthesized_expression
+          (identifier))
+        (compound_statement
+          (case_statement
+            (number_literal)
+            (number_literal)
+            (return_statement
+              (number_literal)))
+          (case_statement
+            (number_literal)
+            (return_statement
+              (number_literal)))
+          (case_statement
+            (return_statement
+              (number_literal))))))))
+
+================================================================================
+Case ranges with non-literal bounds (GNU extension)
+================================================================================
+
+int main(int c, int x) {
+  switch (x) {
+    case 'a' ... 'z':
+    case lo ... hi:
+      return c;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (primitive_type)
+          (identifier))
+        (parameter_declaration
+          (primitive_type)
+          (identifier))))
+    (compound_statement
+      (switch_statement
+        (parenthesized_expression
+          (identifier))
+        (compound_statement
+          (case_statement
+            (char_literal
+              (character))
+            (char_literal
+              (character)))
+          (case_statement
+            (identifier)
+            (identifier)
+            (return_statement
+              (identifier))))))))
