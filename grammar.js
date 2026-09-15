@@ -858,7 +858,12 @@ module.exports = grammar({
 
     case_statement: $ => prec.right(seq(
       choice(
-        seq('case', field('value', $.expression)),
+        seq(
+          'case',
+          field('value', $.expression),
+          // GNU C case range extension: `case low ... high:` (supported by GCC and Clang)
+          optional(seq('...', field('end_value', $.expression))),
+        ),
         'default',
       ),
       ':',
