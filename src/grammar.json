@@ -1,7 +1,6 @@
 {
   "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
   "name": "c",
-  "word": "identifier",
   "rules": {
     "translation_unit": {
       "type": "REPEAT",
@@ -9644,6 +9643,8 @@
       "name": "comment"
     }
   ],
+  "externals": [],
+  "word": "identifier",
   "conflicts": [
     [
       "type_specifier",
@@ -9713,8 +9714,6 @@
       "extension_expression"
     ]
   ],
-  "precedences": [],
-  "externals": [],
   "inline": [
     "_type_identifier",
     "_field_identifier",
@@ -9732,5 +9731,6 @@
     "_type_declarator",
     "_abstract_declarator"
   ],
+  "precedences": [],
   "reserved": {}
 }
