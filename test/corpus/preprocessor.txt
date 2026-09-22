@@ -447,3 +447,61 @@ uint32_t a;
     (declaration
       (primitive_type)
       (identifier))))
+
+================================================================================
+Block comment between tokens in a macro body
+================================================================================
+
+#define M a /*c*/ b
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (preproc_def
+    name: (identifier)
+    value: (preproc_arg)))
+
+================================================================================
+Block comment inside a braced macro body does not corrupt what follows
+================================================================================
+
+#define M do { /*c*/; } while (0)
+void after(void) { }
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (preproc_def
+    name: (identifier)
+    value: (preproc_arg))
+  (function_definition
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (primitive_type))))
+    body: (compound_statement)))
+
+================================================================================
+Block comment immediately before a line continuation
+================================================================================
+
+#define M do { /*c*/\
+  x; } while (0)
+void after(void) { }
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (preproc_def
+    name: (identifier)
+    value: (preproc_arg))
+  (function_definition
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (primitive_type))))
+    body: (compound_statement)))
