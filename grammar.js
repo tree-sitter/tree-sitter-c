@@ -36,6 +36,9 @@ module.exports = grammar({
   name: 'c',
 
   conflicts: $ => [
+    [$._declaration_modifiers, $._empty_declaration],
+    [$.declaration, $.storage_class_specifier],
+    [$.sized_type_specifier, $.enum_specifier],
     [$.type_specifier, $._declarator],
     [$.type_specifier, $._declarator, $.macro_type_specifier],
     [$.type_specifier, $.expression],
@@ -100,6 +103,7 @@ module.exports = grammar({
       $.preproc_def,
       $.preproc_function_def,
       $.preproc_call,
+      $.pragma_operator,
     ),
 
     _block_item: $ => choice(
@@ -117,6 +121,7 @@ module.exports = grammar({
       $.preproc_def,
       $.preproc_function_def,
       $.preproc_call,
+      $.pragma_operator,
     ),
 
     // Preprocesser
@@ -162,6 +167,9 @@ module.exports = grammar({
     ...preprocIf('_in_enumerator_list', $ => seq($.enumerator, ',')),
     ...preprocIf('_in_enumerator_list_no_comma', $ => $.enumerator, -1),
 
+    // C99 `_Pragma("…")`, the operator form of #pragma
+    pragma_operator: $ => seq('_Pragma', '(', $.string_literal, ')'),
+
     preproc_arg: _ => token(prec(-1, /\S([^/\n]|\/[^*]|\\\r?\n)*/)),
     preproc_directive: _ => /#[ \t]*[a-zA-Z0-9]\w*/,
 
@@ -199,7 +207,7 @@ module.exports = grammar({
 
     preproc_argument_list: $ => seq(
       '(',
-      commaSep($._preproc_expression),
+      commaSep(choice($._preproc_expression, $.system_lib_string, $.string_literal)),
       ')',
     ),
 
@@ -254,7 +262,11 @@ module.exports = grammar({
     ),
 
     declaration: $ => seq(
-      $._declaration_specifiers,
+      choice(
+        $._declaration_specifiers,
+        // C23 type inference: `auto x = 1;` has a storage class and no type
+        prec.dynamic(-1, alias('auto', $.storage_class_specifier)),
+      ),
       commaSep1(field('declarator', choice(
         seq(
           optional($.ms_call_modifier),
@@ -324,6 +336,7 @@ module.exports = grammar({
       '__declspec',
       '(',
       $.identifier,
+      optional($.argument_list),
       ')',
     ),
 
@@ -350,6 +363,8 @@ module.exports = grammar({
     ms_unaligned_ptr_modifier: _ => choice('_unaligned', '__unaligned'),
 
     ms_pointer_modifier: $ => choice(
+      '__ptr32',
+      '__ptr64',
       $.ms_unaligned_ptr_modifier,
       $.ms_restrict_modifier,
       $.ms_unsigned_ptr_modifier,
@@ -449,6 +464,7 @@ module.exports = grammar({
     pointer_declarator: $ => prec.dynamic(1, prec.right(seq(
       optional($.ms_based_modifier),
       '*',
+      repeat($.attribute_declaration),
       repeat($.ms_pointer_modifier),
       repeat($.type_qualifier),
       field('declarator', $._declarator),
@@ -456,6 +472,7 @@ module.exports = grammar({
     pointer_field_declarator: $ => prec.dynamic(1, prec.right(seq(
       optional($.ms_based_modifier),
       '*',
+      repeat($.attribute_declaration),
       repeat($.ms_pointer_modifier),
       repeat($.type_qualifier),
       field('declarator', $._field_declarator),
@@ -463,6 +480,7 @@ module.exports = grammar({
     pointer_type_declarator: $ => prec.dynamic(1, prec.right(seq(
       optional($.ms_based_modifier),
       '*',
+      repeat($.attribute_declaration),
       repeat($.ms_pointer_modifier),
       repeat($.type_qualifier),
       field('declarator', $._type_declarator),
@@ -563,6 +581,7 @@ module.exports = grammar({
       '__inline__',
       '__forceinline',
       'thread_local',
+      '_Thread_local',
       '__thread',
     ),
 
@@ -591,11 +610,24 @@ module.exports = grammar({
       $.struct_specifier,
       $.union_specifier,
       $.enum_specifier,
+      $.typeof_specifier,
+      $.bit_int_specifier,
       $.macro_type_specifier,
       $.sized_type_specifier,
       $.primitive_type,
       $._type_identifier,
     ),
+
+    // C23 typeof / typeof_unqual (and the GNU spellings), of an expression or a type
+    typeof_specifier: $ => seq(
+      choice('typeof', 'typeof_unqual', '__typeof__', '__typeof', '__typeof_unqual__'),
+      '(',
+      choice($.type_descriptor, $.expression),
+      ')',
+    ),
+
+    // C23 bit-precise integers: _BitInt(N), unsigned _BitInt(N)
+    bit_int_specifier: $ => seq('_BitInt', '(', $.expression, ')'),
 
     sized_type_specifier: $ => choice(
       seq(
@@ -604,16 +636,23 @@ module.exports = grammar({
           'unsigned',
           'long',
           'short',
+          '_Complex',
+          '_Imaginary',
+          '__complex__',
         )),
         field('type', optional(choice(
           prec.dynamic(-1, $._type_identifier),
           $.primitive_type,
+          $.bit_int_specifier,
         ))),
         repeat1(choice(
           'signed',
           'unsigned',
           'long',
           'short',
+          '_Complex',
+          '_Imaginary',
+          '__complex__',
         )),
       ),
       seq(
@@ -622,17 +661,24 @@ module.exports = grammar({
           'unsigned',
           'long',
           'short',
+          '_Complex',
+          '_Imaginary',
+          '__complex__',
         )),
         repeat($.type_qualifier),
         field('type', optional(choice(
           prec.dynamic(-1, $._type_identifier),
           $.primitive_type,
+          $.bit_int_specifier,
         ))),
         repeat(choice(
           'signed',
           'unsigned',
           'long',
           'short',
+          '_Complex',
+          '_Imaginary',
+          '__complex__',
         )),
       ),
     ),
@@ -662,10 +708,13 @@ module.exports = grammar({
       choice(
         seq(
           field('name', $._type_identifier),
-          optional(seq(':', field('underlying_type', $.primitive_type))),
+          optional(seq(':', field('underlying_type', choice($.primitive_type, $.sized_type_specifier, $._type_identifier)))),
           field('body', optional($.enumerator_list)),
         ),
-        field('body', $.enumerator_list),
+        seq(
+          optional(seq(':', field('underlying_type', choice($.primitive_type, $.sized_type_specifier, $._type_identifier)))),
+          field('body', $.enumerator_list),
+        ),
       ),
       optional($.attribute_specifier),
     ),
@@ -858,7 +907,7 @@ module.exports = grammar({
 
     case_statement: $ => prec.right(seq(
       choice(
-        seq('case', field('value', $.expression)),
+        seq('case', field('value', $.expression), optional(seq('...', field('end', $.expression)))),
         'default',
       ),
       ':',
@@ -916,7 +965,11 @@ module.exports = grammar({
 
     goto_statement: $ => seq(
       'goto',
-      field('label', $._statement_identifier),
+      choice(
+        field('label', $._statement_identifier),
+        // GNU computed goto: goto *ptr;
+        seq('*', field('label', $.expression)),
+      ),
       ';',
     ),
 
@@ -1226,6 +1279,7 @@ module.exports = grammar({
         $.initializer_pair,
         $.expression,
         $.initializer_list,
+        $.preproc_call,
       )),
       optional(','),
       '}',
@@ -1318,6 +1372,8 @@ module.exports = grammar({
       '\\',
       choice(
         /[^xuU]/,
+        /[xuo]\{[0-9a-fA-F]+\}/,
+        /N\{[^}\n]+\}/,
         /\d{2,3}/,
         /x[0-9a-fA-F]{1,4}/,
         /u[0-9a-fA-F]{4}/,
@@ -1346,6 +1402,7 @@ module.exports = grammar({
     _statement_identifier: $ => alias($.identifier, $.statement_identifier),
 
     _empty_declaration: $ => seq(
+      repeat($.ms_declspec_modifier),
       $.type_specifier,
       ';',
     ),
