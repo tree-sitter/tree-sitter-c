@@ -1481,3 +1481,33 @@ unsigned const char *c;
       (primitive_type))
     (pointer_declarator
       (identifier))))
+
+================================================================================
+Macro arguments with designated initializers
+================================================================================
+
+void f(void) {
+    M(.a = {1, 1},);
+}
+
+---
+
+(translation_unit
+  (function_definition
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (primitive_type))))
+    body: (compound_statement
+      (expression_statement
+        (call_expression
+          function: (identifier)
+          arguments: (argument_list
+            (initializer_pair
+              designator: (field_designator
+                (field_identifier))
+              value: (initializer_list
+                (number_literal)
+                (number_literal)))))))))
