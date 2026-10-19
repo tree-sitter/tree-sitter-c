@@ -1196,8 +1196,10 @@ module.exports = grammar({
 
     extension_expression: $ => seq('__extension__', $.expression),
 
-    // The compound_statement is added to parse macros taking statements as arguments, e.g. MYFORLOOP(1, 10, i, { foo(i); bar(i); })
-    argument_list: $ => seq('(', commaSep(choice($.expression, $.compound_statement)), ')'),
+    // Allow compound statements and designated initializers as macro arguments, including trailing commas. For example:
+    // MYFORLOOP(1, 10, i, { foo(i); bar(i); })
+    // PARAMS(.foo = foo, .bar = { bar, 1 },)
+    argument_list: $ => seq('(', commaSep(choice($.expression, $.compound_statement, $.initializer_pair)), optional(','), ')'),
 
     field_expression: $ => seq(
       prec(PREC.FIELD, seq(
