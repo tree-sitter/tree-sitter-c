@@ -447,3 +447,59 @@ uint32_t a;
     (declaration
       (primitive_type)
       (identifier))))
+
+================================================================================
+Preprocessor expressions with header names
+================================================================================
+
+#if __has_include(<stdio.h>)
+int a;
+#endif
+
+#if __has_include("config.h") && !__has_include(<sys/capability.h>)
+int b;
+#elif __has_include("other.h")
+int c;
+#endif
+
+#if defined(__has_include)
+#endif
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (preproc_if
+    condition: (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (system_lib_string)))
+    (declaration
+      type: (primitive_type)
+      declarator: (identifier)))
+  (preproc_if
+    condition: (binary_expression
+      left: (call_expression
+        function: (identifier)
+        arguments: (argument_list
+          (string_literal
+            (string_content))))
+      right: (unary_expression
+        argument: (call_expression
+          function: (identifier)
+          arguments: (argument_list
+            (system_lib_string)))))
+    (declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    alternative: (preproc_elif
+      condition: (call_expression
+        function: (identifier)
+        arguments: (argument_list
+          (string_literal
+            (string_content))))
+      (declaration
+        type: (primitive_type)
+        declarator: (identifier))))
+  (preproc_if
+    condition: (preproc_defined
+      (identifier))))
