@@ -199,7 +199,7 @@ module.exports = grammar({
 
     preproc_argument_list: $ => seq(
       '(',
-      commaSep($._preproc_expression),
+      commaSep(choice($._preproc_expression, $.string_literal, $.system_lib_string)),
       ')',
     ),
 

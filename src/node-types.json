@@ -498,6 +498,10 @@
         {
           "type": "preproc_defined",
           "named": true
+        },
+        {
+          "type": "system_lib_string",
+          "named": true
         }
       ]
     }
