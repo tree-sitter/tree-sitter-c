@@ -97,6 +97,11 @@ enum e4: int {
 #endif
 };
 
+enum : int {
+  val1,
+  val2,
+};
+
 --------------------------------------------------------------------------------
 
 (translation_unit
@@ -148,7 +153,14 @@ enum e4: int {
             name: (identifier)
             value: (char_literal
               (character)
-              (character))))))))
+              (character)))))))
+      (enum_specifier
+        underlying_type: (primitive_type)
+        body: (enumerator_list
+          (enumerator
+            name: (identifier))
+          (enumerator
+            name: (identifier)))))
 
 ================================================================================
 Struct declarations containing preprocessor directives

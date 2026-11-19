@@ -665,6 +665,10 @@ module.exports = grammar({
           optional(seq(':', field('underlying_type', $.primitive_type))),
           field('body', optional($.enumerator_list)),
         ),
+        seq(
+          seq(':', field('underlying_type', $.primitive_type)),
+          field('body', optional($.enumerator_list)),
+        ),
         field('body', $.enumerator_list),
       ),
       optional($.attribute_specifier),
