@@ -1481,3 +1481,195 @@ unsigned const char *c;
       (primitive_type))
     (pointer_declarator
       (identifier))))
+
+================================================================================
+Raw string literals
+================================================================================
+
+const char *s1 = R"(
+  This is a string. It ends with ')' and a quote.
+)";
+
+const char *s2 = R"FOO(
+  This is a string. It ends with ')FOO' and a quote.
+)FOO";
+
+const char *s3 = uR"FOO(
+  This is a string. It ends with ')FOO' and a quote.
+)FOO";
+
+const char *s4 = UR"FOO(
+  This is a string. It ends with ')FOO' and a quote.
+)FOO";
+
+const char *s5 = u8R"FOO(
+  This is a string. It ends with ')FOO' and a quote.
+)FOO";
+
+const char *s6 = LR"FOO(
+  This is a string. It ends with ')FOO' and a quote.
+)FOO";
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (type_qualifier)
+    (primitive_type)
+    (init_declarator
+      (pointer_declarator
+        (identifier))
+      (gnu_raw_string_literal
+        (gnu_raw_string_content))))
+  (declaration
+    (type_qualifier)
+    (primitive_type)
+    (init_declarator
+      (pointer_declarator
+        (identifier))
+      (gnu_raw_string_literal
+        (gnu_raw_string_delimiter)
+        (gnu_raw_string_content)
+        (gnu_raw_string_delimiter))))
+  (declaration
+    (type_qualifier)
+    (primitive_type)
+    (init_declarator
+      (pointer_declarator
+        (identifier))
+      (gnu_raw_string_literal
+        (gnu_raw_string_delimiter)
+        (gnu_raw_string_content)
+        (gnu_raw_string_delimiter))))
+  (declaration
+    (type_qualifier)
+    (primitive_type)
+    (init_declarator
+      (pointer_declarator
+        (identifier))
+      (gnu_raw_string_literal
+        (gnu_raw_string_delimiter)
+        (gnu_raw_string_content)
+        (gnu_raw_string_delimiter))))
+  (declaration
+    (type_qualifier)
+    (primitive_type)
+    (init_declarator
+      (pointer_declarator
+        (identifier))
+      (gnu_raw_string_literal
+        (gnu_raw_string_delimiter)
+        (gnu_raw_string_content)
+        (gnu_raw_string_delimiter))))
+  (declaration
+    (type_qualifier)
+    (primitive_type)
+    (init_declarator
+      (pointer_declarator
+        (identifier))
+      (gnu_raw_string_literal
+        (gnu_raw_string_delimiter)
+        (gnu_raw_string_content)
+        (gnu_raw_string_delimiter)))))
+
+================================================================================
+Concatenated raw strings
+================================================================================
+
+foo(R"RAW(
+hello)RAW" PRI R"RAW(world)RAW");
+foo(R"RAW(hello)RAW" PRI);
+foo("hello" R"RAW(
+world)RAW");
+foo(R"RAW(hello)RAW" "world" PRI);
+foo(PRI R"RAW(hello
+)RAW" PRI);
+foo(PRI R"RAW(
+hello)RAW");
+foo("foo" R"RAW(
+hello)RAW" L"world");
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+        (gnu_raw_string_literal
+          delimiter: (gnu_raw_string_delimiter)
+          (gnu_raw_string_content)
+          (gnu_raw_string_delimiter))
+          (identifier)
+          (gnu_raw_string_literal
+            delimiter: (gnu_raw_string_delimiter)
+            (gnu_raw_string_content)
+            (gnu_raw_string_delimiter))))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+          (gnu_raw_string_literal
+            delimiter: (gnu_raw_string_delimiter)
+            (gnu_raw_string_content)
+            (gnu_raw_string_delimiter))
+          (identifier)))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+          (string_literal
+            (string_content))
+          (gnu_raw_string_literal
+            delimiter: (gnu_raw_string_delimiter)
+            (gnu_raw_string_content)
+            (gnu_raw_string_delimiter))))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+          (gnu_raw_string_literal
+            delimiter: (gnu_raw_string_delimiter)
+            (gnu_raw_string_content)
+            (gnu_raw_string_delimiter))
+          (string_literal
+            (string_content))
+          (identifier)))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+          (identifier)
+          (gnu_raw_string_literal
+            delimiter: (gnu_raw_string_delimiter)
+            (gnu_raw_string_content)
+            (gnu_raw_string_delimiter))
+          (identifier)))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+          (identifier)
+          (gnu_raw_string_literal
+            delimiter: (gnu_raw_string_delimiter)
+            (gnu_raw_string_content)
+            (gnu_raw_string_delimiter))))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (argument_list
+        (concatenated_string
+          (string_literal
+            (string_content))
+          (gnu_raw_string_literal
+            delimiter: (gnu_raw_string_delimiter)
+            (gnu_raw_string_content)
+            (gnu_raw_string_delimiter))
+          (string_literal
+            (string_content)))))))
